@@ -52,6 +52,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Characters.cs" />
+    <Compile Include="Dynasties.cs" />
+    <Compile Include="DynTitle.cs" />
+    <Compile Include="Flags.cs" />
     <Compile Include="IIdContainer.cs" />
     <Compile Include="ISaveObject.cs" />
     <Compile Include="Player.cs" />

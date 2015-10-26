@@ -1,16 +1,14 @@
 ﻿using System;
 
-namespace ck2.Mapping.Mapping.Mapping
+namespace ck2.Mapping.Save.Model
 {
     public  class Player: SaveObject
     {
 
-        public Characters ById()
-        {}
-
-        public override void SerializeOrWrite()
+        public Character ById()
         {
             throw new NotImplementedException();
         }
+
     }
 }

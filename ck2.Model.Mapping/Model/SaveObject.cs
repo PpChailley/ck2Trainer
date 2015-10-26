@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ck2.Mapping.Mapping.Mapping
+namespace ck2.Mapping.Save.Model
 {
     public abstract class SaveObject
     {

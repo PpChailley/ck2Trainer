@@ -1,4 +1,4 @@
-﻿namespace ck2.Mapping.Mapping.Mapping
+﻿namespace ck2.Mapping.Save.Model
 {
     /**
      * 

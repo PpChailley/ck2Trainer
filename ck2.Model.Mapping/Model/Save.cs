@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ck2.Mapping.Mapping.Mapping
+﻿namespace ck2.Mapping.Save.Model
 {
     public class Save: SaveObject
     {
@@ -10,7 +8,7 @@ namespace ck2.Mapping.Mapping.Mapping
         public DynTitle DynTitle;
         public Flags Flags;
         public Dynasties Dynasties;
-        public Characters Characters;
+        public Character Characters;
 
         public string PlayerRealm { get; set; }
 

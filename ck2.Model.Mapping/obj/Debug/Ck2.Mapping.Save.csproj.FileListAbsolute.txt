@@ -1,4 +1,3 @@
-S:\Dropbox\dev\Visual Studio\Ck2Trainer\ck2.Model.Mapping\obj\Debug\ck2.Model.Mapping.csprojResolveAssemblyReference.cache
 S:\Dropbox\dev\Visual Studio\Ck2Trainer\ck2.Model.Mapping\bin\Debug\ck2.Mapping.Save.dll
 S:\Dropbox\dev\Visual Studio\Ck2Trainer\ck2.Model.Mapping\bin\Debug\ck2.Mapping.Save.pdb
 S:\Dropbox\dev\Visual Studio\Ck2Trainer\ck2.Model.Mapping\bin\Debug\Ninject.dll

@@ -1,4 +1,4 @@
-﻿namespace ck2.Model.Mapping.Test
+﻿namespace ck2.Mapping.Mapping.Mapping.Test
 {
     class MappingTest
     {

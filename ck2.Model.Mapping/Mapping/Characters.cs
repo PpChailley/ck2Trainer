@@ -1,4 +1,6 @@
-﻿namespace ck2.Model.Mapping
+﻿using ck2.Mapping.Mapping.Mapping;
+
+namespace ck2.Mapping.Model
 {
     public  class Characters: SaveObject, IIdContainer
     {

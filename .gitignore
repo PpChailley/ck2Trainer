@@ -1,7 +1,8 @@
-/*.suo
+*.suo
 */obj/Debug/
 */bin/Debug
 *.cache
 Data
+.vs
 
 

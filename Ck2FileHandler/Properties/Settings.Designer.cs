@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Ck2.FileHandler.Properties {
+namespace Ck2.Save.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

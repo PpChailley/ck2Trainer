@@ -18,7 +18,7 @@ namespace ck2.Mapping.Save.Test
         [Test]
         public void SmokeTest()
         {
-            Save s = new Save();
+            throw new NotImplementedException();
         }
 
 

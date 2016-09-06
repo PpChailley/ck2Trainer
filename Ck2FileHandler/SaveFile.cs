@@ -1,23 +1,23 @@
 ﻿using System;
 using System.IO;
 
-namespace Ck2.FileHandler
+namespace Ck2.Save
 
 {
-    public class Handler
+    public class SaveFile
     {
         private FileInfo _file;
-        private StreamReader _fstream;
+        private readonly StreamReader _fstream;
 
 
-        public Handler(FileInfo f)
+        public SaveFile(FileInfo f)
         {
             _file = f;
             _fstream = f.OpenText();
             CheckFileValidity();
         }
 
-
+        public SaveFile(string s) : this(new FileInfo(s)) { }
 
 
         private void CheckFileValidity()

@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ck2RawTrainer", "Ck2Trainer
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ck2.Mapping.Save", "ck2.Model.Mapping\Ck2.Mapping.Save.csproj", "{D07C9C61-FAB4-4FEF-A063-E0B6E74343B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ck2FileHandler", "Ck2FileHandler\Ck2FileHandler.csproj", "{AA6E3F5C-781C-4D7A-B421-4B4319E30745}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ck2.FileHandler", "Ck2FileHandler\Ck2.FileHandler.csproj", "{AA6E3F5C-781C-4D7A-B421-4B4319E30745}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

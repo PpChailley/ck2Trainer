@@ -1,3 +1,7 @@
 /*.suo
-/Ck2Trainer/bin/Debug
-/Ck2Trainer/obj/Debug
+*/obj/Debug/
+*/bin/Debug
+*.cache
+Data
+
+

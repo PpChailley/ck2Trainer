@@ -8,3 +8,6 @@ S:\Dropbox\dev\Visual Studio\Ck2Trainer\ck2.Model.Mapping\bin\Debug\NLog.xml
 S:\Dropbox\dev\Visual Studio\Ck2Trainer\ck2.Model.Mapping\bin\Debug\nunit.framework.xml
 S:\Dropbox\dev\Visual Studio\Ck2Trainer\ck2.Model.Mapping\obj\Debug\ck2.Mapping.Save.dll
 S:\Dropbox\dev\Visual Studio\Ck2Trainer\ck2.Model.Mapping\obj\Debug\ck2.Mapping.Save.pdb
+D:\Users\pipo\Dropbox\IsoFiling\Development\ck2Trainer\ck2.Model.Mapping\obj\Debug\Ck2.Mapping.Save.csprojResolveAssemblyReference.cache
+D:\Users\pipo\Dropbox\IsoFiling\Development\ck2Trainer\ck2.Model.Mapping\obj\Debug\ck2.Mapping.Save.dll
+D:\Users\pipo\Dropbox\IsoFiling\Development\ck2Trainer\ck2.Model.Mapping\obj\Debug\ck2.Mapping.Save.pdb

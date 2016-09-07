@@ -12,15 +12,20 @@ namespace Ck2.Save.Test
     [TestFixture]
     public class FileTest
     {
-        public const string TEST_FILE = @"D:\Users\pipo\Dropbox\IsoFiling\Development\ck2Trainer\Data\readonly\olderautosave.ck2";
-        public const string EMPTY_FILE = @"D:\Users\pipo\Dropbox\IsoFiling\Development\ck2Trainer\Data\readonly\empty.ck2";
-        public const string INVALID_FILE = @"D:\Users\pipo\Dropbox\IsoFiling\Development\ck2Trainer\Data\readonly\invalid.ck2";
+        private SaveFile _file;
+
+        public const string DATAFILES_DIR = @"D:\Users\pipo\Dropbox\IsoFiling\Development\ck2Trainer\Data\readonly\";
+        public const string TEST_FILE =     DATAFILES_DIR + @"full.ck2";
+        public const string SHORT_FILE =    DATAFILES_DIR + @"shortened.ck2";
+        public const string EMPTY_FILE =    DATAFILES_DIR + @"empty.ck2";
+        public const string INVALID_FILE =  DATAFILES_DIR + @"invalid.ck2";
 
 
         [SetUp]
         public void SetUp()
         {
-            // Nothing yet
+            _file = new SaveFile(SHORT_FILE);
+
         }
 
         [Test]
@@ -46,6 +51,38 @@ namespace Ck2.Save.Test
         {
             var f = new SaveFile(INVALID_FILE);
         }
+
+        [Test]
+        public void ReadFileIntoTextBlocks()
+        {
+            var textBlocks = _file.ReadTextBlocks();
+            Assert.That(textBlocks.Children, Has.Count.GreaterThan(100));
+        }
+
+        [Test]
+        public void ReadLinesCount()
+        {
+            var textBlocks = _file.ReadTextBlocks();
+            Assert.That(SaveFile.NbReadLines, Is.EqualTo(130612));
+        }
+
+
+        [Test]
+        public void ReadPlayerId()
+        {
+            var playerId = _file.PlayerId;
+            Assert.That(playerId as object, Is.Not.EqualTo(0));
+        }
+
+        [Test]
+        public void GetPlayerObject()
+        {
+            var player = _file.Player;
+            var playerId = _file.PlayerId;
+            Assert.That(player as object, Is.Not.EqualTo(0));
+            Assert.That(player as object, Is.EqualTo(playerId));
+        }
+
 
 
     }

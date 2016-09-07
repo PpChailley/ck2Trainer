@@ -10,7 +10,7 @@ using NUnit.Framework;
 namespace Ck2.Save.Test
 {
     [TestFixture]
-    public class FileTest
+    public class ParsingFileTest
     {
         private SaveFile _file;
 
@@ -55,34 +55,31 @@ namespace Ck2.Save.Test
         [Test]
         public void ReadFileIntoTextBlocks()
         {
-            var textBlocks = _file.ReadTextBlocks();
-            Assert.That(textBlocks.Children, Has.Count.GreaterThan(100));
+            _file.Parse();
+            Assert.That(_file.RootBlock.Children, Has.Count.GreaterThan(100));
         }
 
         [Test]
         public void ReadLinesCount()
         {
-            var textBlocks = _file.ReadTextBlocks();
+            _file.Parse();
             Assert.That(_file.NbReadLines, Is.EqualTo(130612));
         }
 
 
         [Test]
-        public void ReadPlayerId()
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void ReadInfoBeforeParsing()
         {
             var playerId = _file.PlayerId;
-            Assert.That(playerId as object, Is.Not.EqualTo(0));
         }
 
         [Test]
-        public void GetPlayerObject()
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void ReadInfoBeforeParsing2()
         {
             var player = _file.Player;
-            var playerId = _file.PlayerId;
-            Assert.That(player as object, Is.Not.EqualTo(0));
-            Assert.That(player as object, Is.EqualTo(playerId));
         }
-
 
 
     }

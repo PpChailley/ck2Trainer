@@ -6,6 +6,7 @@ namespace ck2.Mapping.Save.Test
 {
 
     [TestFixture]
+    [Ignore("Model: Soon to be obsolete")]
     public class MappingTest
     {
 

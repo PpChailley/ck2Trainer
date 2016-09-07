@@ -1,21 +1,23 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 namespace Ck2.Save
 {
     [System.Diagnostics.DebuggerDisplay("{ToString()}")]
-    public class TextBlock: ITextElement
+    public class DataBlock: IDataElement
     {
-        public IList<ITextElement> Children { get; set; }
+        public IList<IDataElement> Children { get; set; }
+        public IDataElement Parent { get; }
         public int NestingLevel { get; set; }
         public SaveFile SaveFile { get; set; }
-        public ITextElement Parent;
         private  bool _reachedEndOfBlock = false;
+        public string Name { get; set; }
 
-        public TextBlock(ITextElement parent, SaveFile saveFile, string beforeFirstLine = null)
+        public DataBlock(IDataElement parent, SaveFile saveFile, string beforeFirstLine = null)
         {
-            Children = new List<ITextElement>(1000);
+            Children = new List<IDataElement>(1000);
             Parent = parent;
             NestingLevel = parent?.NestingLevel +1 ?? 0;
             SaveFile = saveFile;
@@ -60,7 +62,7 @@ namespace Ck2.Save
 
             if (line.Contains("}"))
             {
-                footer = line.Substring(line.IndexOf("}", StringComparison.Ordinal) + 1);
+                footer = line.Substring(line.IndexOf("}", StringComparison.Ordinal));
                 line = line.Substring(0, line.IndexOf("}", StringComparison.Ordinal));
             }
 
@@ -68,8 +70,13 @@ namespace Ck2.Save
             AddChild(inside);
             if (footer != null)
             {
+                if (footer.StartsWith("}"))
+                {
+                    footer = footer.Substring(1);
+                    _reachedEndOfBlock = true;
+                }
+
                 Parent?.ProcessLine(footer);
-                _reachedEndOfBlock = true;
             }
             
         }
@@ -80,7 +87,7 @@ namespace Ck2.Save
             // line = line.Trim();
             // if (line.Equals(string.Empty)) return;
 
-            Children.Add(new TextBlock(this, SaveFile, line));
+            Children.Add(new DataBlock(this, SaveFile, line));
         }
 
         private void AddText(string line)
@@ -89,12 +96,31 @@ namespace Ck2.Save
             line = line.Trim();
             if (line.Equals(string.Empty)) return;
 
-            Children.Add(new TextLine(line));
+            Children.Add(new DataLine(line, this, NestingLevel + 1).ToBestRepresentation());
         }
 
         public override string ToString()
         {
-            return $"{GetType().Name} (Nest {NestingLevel}) - {Children.Count} elts";
+            StringBuilder sb = new StringBuilder($"{GetType().Name} (Nest {NestingLevel}, Cnt {Children.Count}): ");
+
+            if (Name != null)
+            {
+                sb.Append($"[{Name}]");
+                return sb.ToString();
+            }
+
+            int childrenCount = 0;
+            foreach (var child in Children)
+            {
+                sb.Append(child.ToString());
+
+                if (childrenCount ++ > 4)
+                    break;
+
+                sb.Append(" -- ");
+            }
+
+            return sb.ToString();
         }
 
     }

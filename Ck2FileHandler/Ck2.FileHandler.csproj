@@ -53,12 +53,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ITextElement.cs" />
+    <Compile Include="DataString.cs" />
+    <Compile Include="IDataElement.cs" />
+    <Compile Include="KeyValuePair.cs" />
     <Compile Include="SaveFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Test\FileTest.cs" />
-    <Compile Include="TextBlock.cs" />
-    <Compile Include="TextLine.cs" />
+    <Compile Include="Test\ParsingFileTest.cs" />
+    <Compile Include="Test\ParsingSemanticsTest.cs" />
+    <Compile Include="DataBlock.cs" />
+    <Compile Include="DataLine.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

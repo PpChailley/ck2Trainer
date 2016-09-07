@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using ck2.Mapping.Save.Model;
 
 namespace Ck2.Save
 
@@ -10,9 +11,12 @@ namespace Ck2.Save
         private readonly FileInfo _file;
         private readonly StreamReader _stream;
         public int NbReadLines { get; private set; }
-        
+        public bool EndOfStream => _stream.EndOfStream;
+        public DataBlock RootBlock { get; private set; }
 
 
+
+        public SaveFile(string s) : this(new FileInfo(s)) { }
         public SaveFile(FileInfo f)
         {
             _file = f;
@@ -20,25 +24,39 @@ namespace Ck2.Save
             CheckFileValidity();
         }
 
-        public SaveFile(string s) : this(new FileInfo(s)) { }
 
-        public int PlayerId
-        {
-            get
-            {
-                throw new NotImplementedException();
-            } 
-        }
 
-        public object Player
+        private int? _playerId;
+        public int? PlayerId => _playerId ?? (_playerId = ReadPlayerId());
+
+        private Player _player;
+        public Player Player => _player ?? (_player = ReadPlayer());
+
+
+
+
+        private Player ReadPlayer()
         {
-            get
+            if (RootBlock == null)
             {
-                throw new NotImplementedException();
+                throw new InvalidOperationException("Cannot read any info while file has not been parsed");
             }
+
+            throw new NotImplementedException();
         }
 
-        public bool EndOfStream => _stream.EndOfStream;
+
+        private int? ReadPlayerId()
+        {
+            if (RootBlock == null)
+            {
+                throw new InvalidOperationException("Cannot read any info while file has not been parsed");
+            }
+
+            throw new NotImplementedException();
+        }
+
+
 
         public string ReadLine()
         {
@@ -71,11 +89,14 @@ namespace Ck2.Save
             }
         }
 
-        public TextBlock ReadTextBlocks()
+        public void Parse()
         {
-            var rootBlock = new TextBlock(null, this);
-            return rootBlock;
+            RootBlock = new DataBlock(null, this);
+
+            // TODO: Write to RootBlock sooner so that we can read it during debug
         }
 
+
+        
     }
 }

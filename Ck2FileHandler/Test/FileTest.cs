@@ -63,7 +63,7 @@ namespace Ck2.Save.Test
         public void ReadLinesCount()
         {
             var textBlocks = _file.ReadTextBlocks();
-            Assert.That(SaveFile.NbReadLines, Is.EqualTo(130612));
+            Assert.That(_file.NbReadLines, Is.EqualTo(130612));
         }
 
 

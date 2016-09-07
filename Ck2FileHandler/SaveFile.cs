@@ -7,16 +7,16 @@ namespace Ck2.Save
     [System.Diagnostics.DebuggerDisplay("{ToString()}")]
     public class SaveFile
     {
-        internal FileInfo File;
-        internal readonly StreamReader Stream;
-        public static int NbReadLines;
+        private readonly FileInfo _file;
+        private readonly StreamReader _stream;
+        public int NbReadLines { get; private set; }
         
 
 
         public SaveFile(FileInfo f)
         {
-            File = f;
-            Stream = f.OpenText();
+            _file = f;
+            _stream = f.OpenText();
             CheckFileValidity();
         }
 
@@ -38,20 +38,37 @@ namespace Ck2.Save
             }
         }
 
+        public bool EndOfStream => _stream.EndOfStream;
+
+        public string ReadLine()
+        {
+            var s = _stream.ReadLine();
+            NbReadLines ++;
+            return s;
+        }
+
 
         private void CheckFileValidity()
         {
-            var openingLine = Stream.ReadLine();
-            var versionLine = Stream.ReadLine();
-            if (openingLine.Equals("CK2txt") == false)
-            {
-                throw new InvalidOperationException("File early consistency check fails. Refuse to open");
-            }
-            if (versionLine.Trim().Equals("version=\"2.5.2.0\"") == false)
-            {
-                throw new InvalidOperationException("File Version mismatch. Refuse to open");
-            }
+            var s = _file.OpenText();
 
+            try
+            {
+                var openingLine = s.ReadLine();
+                var versionLine = s.ReadLine();
+                if (openingLine.Equals("CK2txt") == false)
+                {
+                    throw new InvalidOperationException("File early consistency check fails. Refuse to open");
+                }
+                if (versionLine.Trim().Equals("version=\"2.5.2.0\"") == false)
+                {
+                    throw new InvalidOperationException("File Version mismatch. Refuse to open");
+                }
+            }
+            finally
+            {
+                s.Close();
+            }
         }
 
         public TextBlock ReadTextBlocks()
@@ -59,5 +76,6 @@ namespace Ck2.Save
             var rootBlock = new TextBlock(null, this);
             return rootBlock;
         }
+
     }
 }

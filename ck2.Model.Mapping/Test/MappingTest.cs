@@ -6,7 +6,6 @@ namespace ck2.Mapping.Save.Test
 {
 
     [TestFixture]
-    [Ignore("Model: Soon to be obsolete")]
     public class MappingTest
     {
 
@@ -19,7 +18,7 @@ namespace ck2.Mapping.Save.Test
         [Test]
         public void SmokeTest()
         {
-            throw new NotImplementedException();
+            Save s = new Save();
         }
 
 

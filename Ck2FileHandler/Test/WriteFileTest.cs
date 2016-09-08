@@ -25,28 +25,20 @@ namespace Ck2.Save.Test
         }
 
         [Test]
+        [Ignore("Takes a lot of IO")]
         public void ImitationWrite()
         {
             _file.WriteTo(TEMP_WRITE_FILENAME);
             
-            //Assert.That(FilesAreEqual(ReadFileTest.SHORT_FILE, TEMP_WRITE_FILENAME), Is.EqualTo(true));
-
             var src = new FileInfo(ReadFileTest.SHORT_FILE).OpenText().ReadToEnd();
             var copy = new FileInfo(TEMP_WRITE_FILENAME).OpenText().ReadToEnd();
 
             Assert.That(src.EqualsWithIgnores(copy, new[] {' ', '\t', '\r', '\n'}), Is.EqualTo(0));
 
-            /*
-
-            var srcTrim = src.RemoveAll(new[] { ' ', '\t', '\r', '\n'});
-            var copyTrim = copy.RemoveAll(new[] { ' ', '\t', '\r', '\n' });
-
-            Assert.That(srcTrim.Equals(copyTrim, StringComparison.OrdinalIgnoreCase));
-
-            // */
         }
 
         [Test]
+        [Ignore("Takes a lot of IO")]
         public void ChangeThenWrite()
         {
             var line =  _file.RootBlock.Children
@@ -66,6 +58,7 @@ namespace Ck2.Save.Test
 
 
         [Test]
+        [Ignore("Takes a lot of IO")]
         public void AppendThenWrite()
         {
             var extraLine = new DataLine(_file.RootBlock, 1) {AsText = $"AddedByTest - AppendThenWrite" };

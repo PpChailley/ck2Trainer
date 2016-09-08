@@ -57,6 +57,7 @@
     <Compile Include="OldProcessors\IFileProcessor.cs" />
     <Compile Include="OldProcessors\MoraleToZeroFileProcessor.cs" />
     <Compile Include="OldProcessors\PlayerMoraleToOneFileProcessor.cs" />
+    <Compile Include="Processors\FileChangeSet.cs" />
     <Compile Include="Processors\ICk2Processor.cs" />
     <Compile Include="Processors\NoActionProcessor.cs" />
     <Compile Include="Program.cs" />

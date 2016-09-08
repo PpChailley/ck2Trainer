@@ -9,7 +9,8 @@ namespace Ck2.Trainer.Processors
 {
     public class NoActionProcessor: ICk2Processor
     {
-        public void ApplyToNode(DataBlock node)
+
+        FileChangeSet ICk2Processor.ApplyToNode(DataBlock node)
         {
             throw new NotImplementedException();
         }

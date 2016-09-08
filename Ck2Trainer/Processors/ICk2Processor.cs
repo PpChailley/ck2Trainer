@@ -4,6 +4,6 @@ namespace Ck2.Trainer.Processors
 {
     public interface ICk2Processor
     {
-        void ApplyToNode(DataBlock node);
+        FileChangeSet ApplyToNode(DataBlock node);
     }
 }

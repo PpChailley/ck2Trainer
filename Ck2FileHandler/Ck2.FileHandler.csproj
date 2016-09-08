@@ -57,6 +57,8 @@
     <Compile Include="Ck2SaveFile.cs" />
     <Compile Include="DataString.cs" />
     <Compile Include="Extensions\StringExtension.cs" />
+    <Compile Include="FileChange.cs" />
+    <Compile Include="FileChangeSet.cs" />
     <Compile Include="IDataElement.cs" />
     <Compile Include="KeyValuePair.cs" />
     <Compile Include="Model\Player.cs" />

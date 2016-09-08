@@ -1,0 +1,20 @@
+0000000000000000000000000000000000000000 ee51ab4b430678946d79f5d65fb333c307d14441 PPC <ppchailley@gmx.com> 1473169462 +0200	clone: from https://github.com/PpChailley/ck2Trainer.git
+ee51ab4b430678946d79f5d65fb333c307d14441 c37a7c43657fe73ed2a41199eb35d28315644f20 PPC <ppchailley@gmx.com> 1473182719 +0200	commit: INSTALL Some starting code
+c37a7c43657fe73ed2a41199eb35d28315644f20 07ed90fc91f3eeb1397ed450111ae3a2d129370c PPC <ppchailley@gmx.com> 1473183839 +0200	commit: INSTALL Now working with TDD
+07ed90fc91f3eeb1397ed450111ae3a2d129370c 0cec4411163c206dd3267ac9a858a910cc182518 PPC <ppchailley@gmx.com> 1473183894 +0200	commit: CLEANUP Ignores
+0cec4411163c206dd3267ac9a858a910cc182518 bbfede7b8dbfcfc742ba380293116c8429886175 PPC <ppchailley@gmx.com> 1473240858 +0200	commit: Can Parse brackets in file
+bbfede7b8dbfcfc742ba380293116c8429886175 881b278d9d0e7a6407af181bdea0e3138f935ae5 PPC <ppchailley@gmx.com> 1473250107 +0200	commit: REFACTOR Encapsulate I/O in SaveFile class
+881b278d9d0e7a6407af181bdea0e3138f935ae5 6c08a3103edefddd587ed3a989e2754d33eb9a11 PPC <ppchailley@gmx.com> 1473257231 +0200	commit: BUGGY Brackets problem: apparently brackets are opened twice and closed once (see line 8)
+6c08a3103edefddd587ed3a989e2754d33eb9a11 16735ef21758a779657ed77ea9b6ad35e8fdd1c3 PPC <ppchailley@gmx.com> 1473257309 +0200	commit: CLEANUP Ignores
+16735ef21758a779657ed77ea9b6ad35e8fdd1c3 e64e1de1c0efe2a0bf56bf6e954e01bce9c415d0 PPC <ppchailley@gmx.com> 1473333414 +0200	merge e64e1de1c0efe2a0bf56bf6e954e01bce9c415d0: Fast-forward
+e64e1de1c0efe2a0bf56bf6e954e01bce9c415d0 d20e642ee254f5a3cf5682af20e2f926e4dab9e1 PPC <ppchailley@gmx.com> 1473337645 +0200	commit: CLEANUP Added some sanity checks
+d20e642ee254f5a3cf5682af20e2f926e4dab9e1 f62b300d14f036d357d2746be5733450f36da7b9 PPC <ppchailley@gmx.com> 1473339606 +0200	commit: ADD GetDescendants in DataBlock
+f62b300d14f036d357d2746be5733450f36da7b9 e392c2245f7207ce80ddb450ab1eb0572223d819 PPC <ppchailley@gmx.com> 1473339840 +0200	commit: PASS Previous tests
+e392c2245f7207ce80ddb450ab1eb0572223d819 b132acdfd2208f902cb5e7f69ebaf9c20f7e4296 PPC <ppchailley@gmx.com> 1473341116 +0200	commit: PASS Now checking file contents
+b132acdfd2208f902cb5e7f69ebaf9c20f7e4296 957944f3c7ba78a3d8053d585f5eded4ec7f359b PPC <ppchailley@gmx.com> 1473341326 +0200	commit: PASS Some more content tests
+957944f3c7ba78a3d8053d585f5eded4ec7f359b dfb850ae5b8f23e9a3e1b2d2ca93d1e56cc9dd94 PPC <ppchailley@gmx.com> 1473341402 +0200	commit: REFACTOR Cleanup test names
+dfb850ae5b8f23e9a3e1b2d2ca93d1e56cc9dd94 2e4d92e5419d6326db2b4fd6c084933c57917899 PPC <ppchailley@gmx.com> 1473341502 +0200	commit: CLEANUP Move types to their own files
+2e4d92e5419d6326db2b4fd6c084933c57917899 743c853b430499b7117131e47deab512331835bc PPC <ppchailley@gmx.com> 1473344897 +0200	commit: ADD (almost functional) function to re-write file
+743c853b430499b7117131e47deab512331835bc e85f7431b21873c0d845b4750a4d59654bd24030 PPC <ppchailley@gmx.com> 1473350726 +0200	commit: DEV file can be written and some changes can be made before
+e85f7431b21873c0d845b4750a4d59654bd24030 c6c6ae9f275655f54f0af863bf59cbf9315bdf5f PPC <ppchailley@gmx.com> 1473350792 +0200	commit: CLEANUP
+c6c6ae9f275655f54f0af863bf59cbf9315bdf5f 27c88b93d1b2945128f0f74143834cf88efe94f2 PPC <ppchailley@gmx.com> 1473350943 +0200	commit: CLEANUP slightly improve indentation on file write

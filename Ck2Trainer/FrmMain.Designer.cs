@@ -38,17 +38,19 @@
             this.ListFiles = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.lbFileProperties = new System.Windows.Forms.ListBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.groupBox1.SuspendLayout();
+            this.gbAvailableFiles = new System.Windows.Forms.GroupBox();
+            this.lbAvailableFiles = new System.Windows.Forms.ListBox();
+            this.btnApplyProcessor = new System.Windows.Forms.Button();
+            this.gbAvailableFiles.SuspendLayout();
             this.SuspendLayout();
             // 
             // lbProcessors
             // 
             this.lbProcessors.FormattingEnabled = true;
             this.lbProcessors.HorizontalScrollbar = true;
-            this.lbProcessors.Location = new System.Drawing.Point(12, 165);
+            this.lbProcessors.Location = new System.Drawing.Point(12, 308);
             this.lbProcessors.Name = "lbProcessors";
-            this.lbProcessors.Size = new System.Drawing.Size(345, 329);
+            this.lbProcessors.Size = new System.Drawing.Size(345, 186);
             this.lbProcessors.TabIndex = 0;
             // 
             // ProgressBar
@@ -68,7 +70,7 @@
             // 
             // ClearLog
             // 
-            this.ClearLog.Location = new System.Drawing.Point(395, 9);
+            this.ClearLog.Location = new System.Drawing.Point(395, 451);
             this.ClearLog.Name = "ClearLog";
             this.ClearLog.Size = new System.Drawing.Size(70, 30);
             this.ClearLog.TabIndex = 6;
@@ -96,9 +98,9 @@
             // 
             // ListFiles
             // 
-            this.ListFiles.Location = new System.Drawing.Point(362, 74);
+            this.ListFiles.Location = new System.Drawing.Point(350, 20);
             this.ListFiles.Name = "ListFiles";
-            this.ListFiles.Size = new System.Drawing.Size(103, 30);
+            this.ListFiles.Size = new System.Drawing.Size(80, 30);
             this.ListFiles.TabIndex = 9;
             this.ListFiles.Text = "Load File";
             this.ListFiles.UseVisualStyleBackColor = true;
@@ -106,9 +108,9 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(362, 110);
+            this.button1.Location = new System.Drawing.Point(350, 56);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(103, 30);
+            this.button1.Size = new System.Drawing.Size(80, 30);
             this.button1.TabIndex = 10;
             this.button1.Text = "-- WRITE --";
             this.button1.UseVisualStyleBackColor = true;
@@ -117,41 +119,61 @@
             // 
             this.lbFileProperties.FormattingEnabled = true;
             this.lbFileProperties.HorizontalScrollbar = true;
-            this.lbFileProperties.Location = new System.Drawing.Point(8, 45);
+            this.lbFileProperties.Location = new System.Drawing.Point(12, 152);
             this.lbFileProperties.Name = "lbFileProperties";
-            this.lbFileProperties.Size = new System.Drawing.Size(330, 82);
+            this.lbFileProperties.Size = new System.Drawing.Size(453, 108);
             this.lbFileProperties.TabIndex = 11;
-            this.lbFileProperties.SelectedIndexChanged += new System.EventHandler(this.lbFileProperties_SelectedIndexChanged);
             // 
-            // groupBox1
+            // gbAvailableFiles
             // 
-            this.groupBox1.Controls.Add(this.PathTextBox);
-            this.groupBox1.Controls.Add(this.lbFileProperties);
-            this.groupBox1.Controls.Add(this.browseButton);
-            this.groupBox1.Location = new System.Drawing.Point(11, 12);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(344, 134);
-            this.groupBox1.TabIndex = 12;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Input File";
+            this.gbAvailableFiles.Controls.Add(this.lbAvailableFiles);
+            this.gbAvailableFiles.Controls.Add(this.PathTextBox);
+            this.gbAvailableFiles.Controls.Add(this.browseButton);
+            this.gbAvailableFiles.Controls.Add(this.button1);
+            this.gbAvailableFiles.Controls.Add(this.ListFiles);
+            this.gbAvailableFiles.Location = new System.Drawing.Point(11, 12);
+            this.gbAvailableFiles.Name = "gbAvailableFiles";
+            this.gbAvailableFiles.Size = new System.Drawing.Size(454, 134);
+            this.gbAvailableFiles.TabIndex = 12;
+            this.gbAvailableFiles.TabStop = false;
+            this.gbAvailableFiles.Text = "Save Directory";
+            // 
+            // lbAvailableFiles
+            // 
+            this.lbAvailableFiles.FormattingEnabled = true;
+            this.lbAvailableFiles.HorizontalScrollbar = true;
+            this.lbAvailableFiles.Location = new System.Drawing.Point(6, 45);
+            this.lbAvailableFiles.Name = "lbAvailableFiles";
+            this.lbAvailableFiles.Size = new System.Drawing.Size(330, 82);
+            this.lbAvailableFiles.TabIndex = 12;
+            // 
+            // btnApplyProcessor
+            // 
+            this.btnApplyProcessor.Location = new System.Drawing.Point(362, 308);
+            this.btnApplyProcessor.Name = "btnApplyProcessor";
+            this.btnApplyProcessor.Size = new System.Drawing.Size(103, 30);
+            this.btnApplyProcessor.TabIndex = 13;
+            this.btnApplyProcessor.Text = " --- Apply --->";
+            this.btnApplyProcessor.UseVisualStyleBackColor = true;
+            this.btnApplyProcessor.Click += new System.EventHandler(this.btnApplyProcessor_Click);
             // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(937, 535);
-            this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.ListFiles);
+            this.Controls.Add(this.btnApplyProcessor);
+            this.Controls.Add(this.lbFileProperties);
+            this.Controls.Add(this.gbAvailableFiles);
             this.Controls.Add(this.ClearLog);
             this.Controls.Add(this.LogList);
             this.Controls.Add(this.ProgressBar);
             this.Controls.Add(this.lbProcessors);
             this.Name = "FrmMain";
-            this.Text = "FrmMain";
+            this.Text = "(will be changed at form load)";
             this.Load += new System.EventHandler(this.Form1_Load);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
+            this.gbAvailableFiles.ResumeLayout(false);
+            this.gbAvailableFiles.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -168,7 +190,9 @@
         private System.Windows.Forms.Button ListFiles;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.ListBox lbFileProperties;
-        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox gbAvailableFiles;
+        private System.Windows.Forms.Button btnApplyProcessor;
+        private System.Windows.Forms.ListBox lbAvailableFiles;
     }
 }
 

@@ -51,8 +51,6 @@ namespace ck2.Mapping.Save.Extensions
             int colA = 1;
             int colB = 1;
 
-            bool stopOnBreaks = false;
-
             while (indexA < a.LongLength && indexInB < b.LongLength )
             {
 
@@ -89,12 +87,8 @@ namespace ck2.Mapping.Save.Extensions
                 }
 
 
-                if (nbLinesSeenA >= 41 || nbLinesSeenB >= 41)
-                    stopOnBreaks = false;
-
                 if (a[indexA] != b[indexInB])
                 {
-                    var s = 0;
                     return nbLinesSeenA;
                 }
 

@@ -8,14 +8,15 @@ namespace Ck2.Save
     {
         public bool IsBlock => false;
 
-        public string Text;
-        public IList<IDataElement> Children => new IDataElement[0];
+        public string AsText;
+        public KeyValuePair AsKeyVal;
+        public bool HasTriedKeyVal = false;
+
+        public IList<IDataElement> Children => AsKeyVal == null ? new IDataElement[0] : AsKeyVal.Value.Children;
 
         public IDataElement Parent { get; }
         public int NestingLevel { get; }
 
-        public KeyValuePair AsKeyVal;
-        public bool HasTriedKeyVal = false;
 
         public DataLine(IDataElement parent, int nestingLevel)
         {
@@ -26,7 +27,7 @@ namespace Ck2.Save
 
         public IDataElement ProcessLine(string line)
         {
-            Text = line.Trim();
+            AsText = line.Trim();
             HasTriedKeyVal = false;
             ToBestRepresentation();
 
@@ -50,7 +51,7 @@ namespace Ck2.Save
         public override string ToString()
         {
             if (AsKeyVal == null)
-                return GetType().Name + " : " + Text;
+                return GetType().Name + " : " + AsText;
             else
                 return AsKeyVal.ToString();
         }

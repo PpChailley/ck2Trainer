@@ -1,7 +1,4 @@
-using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Runtime.InteropServices;
 using System.Text;
 
 namespace Ck2.Save
@@ -11,23 +8,21 @@ namespace Ck2.Save
     {
         public bool IsBlock => true;
 
-        public IList<IDataElement> Children { get; set; }
+        public IList<IDataElement> Children { get; }
+
         public IDataElement Parent { get; }
         public int NestingLevel { get; set; }
         public SaveFile SaveFile { get; set; }
-        private  bool _reachedEndOfBlock = false;
         public string Name { get; set; }
 
         private bool _hasSeenOpeningBracket = false;
 
         public DataBlock(IDataElement parent, string beforeFirstLine = null)
         {
-            Children = new List<IDataElement>(1000);
+            Children = new List<IDataElement>(10000);
             Parent = parent;
             NestingLevel = parent?.NestingLevel +1 ?? 0;
         }
-
-
         
 
 

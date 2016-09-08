@@ -53,13 +53,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Ck2SaveFile.cs" />
     <Compile Include="DataString.cs" />
+    <Compile Include="Extensions\StringExtension.cs" />
     <Compile Include="IDataElement.cs" />
     <Compile Include="KeyValuePair.cs" />
+    <Compile Include="Model\Player.cs" />
     <Compile Include="SaveFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Test\ParsingFileTest.cs" />
-    <Compile Include="Test\ParsingSemanticsTest.cs" />
+    <Compile Include="Test\ReadFileTest.cs" />
+    <Compile Include="Test\ParseCk2File.cs" />
     <Compile Include="DataBlock.cs" />
     <Compile Include="DataLine.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -82,12 +85,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\ck2.Model.Mapping\Ck2.Mapping.Save.csproj">
-      <Project>{D07C9C61-FAB4-4FEF-A063-E0B6E74343B9}</Project>
-      <Name>Ck2.Mapping.Save</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

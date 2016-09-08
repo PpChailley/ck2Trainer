@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using ck2.Mapping.Save.Extensions;
 
 namespace Ck2.Save
 {
@@ -15,28 +16,32 @@ namespace Ck2.Save
 
         public static KeyValuePair FromDataLine(DataLine dataLine)
         {
-            if (dataLine == null || dataLine.Text.Equals(string.Empty))
+            if (dataLine == null || dataLine.AsText.Equals(string.Empty))
                 return null;
 
-            var matches = Regex.Matches(dataLine.Text, @"(.+)=(.*)");
+            var results = dataLine.AsText.SplitAndKeep(new[] {'='}).ToArray();
 
-            if (matches.Count != 1)
-                return null;
-
-            var kv = new KeyValuePair {Key = matches[0].Groups[1].Value};
-            var valueString = matches[0].Groups[2].Value;
-
-            if (valueString.Equals(string.Empty))
+            switch (results.Length)
             {
-                kv.Value = new DataBlock(dataLine.Parent) { Name = kv.Key };
-            }
-            else
-            {
-                kv.Value = new DataString(dataLine.Parent, valueString);
-            }
+                // Line looks like "key=" or "key={"
+                case 2:
+                    return new KeyValuePair
+                    {
+                        Key = results[0],
+                        Value = new DataBlock(dataLine.Parent) { Name = results[0] }
+                    };
 
-            return kv;
+                // Line looks like "key=value"
+                case 3:
+                    return new KeyValuePair
+                    {
+                        Key = results[0],
+                        Value = new DataString(dataLine.Parent, results[2])
+                    };
 
+                default:
+                    return null;
+            }
         }
 
 

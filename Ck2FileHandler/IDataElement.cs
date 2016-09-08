@@ -8,6 +8,7 @@ namespace Ck2.Save
         IList<IDataElement> Children { get; }
         IDataElement Parent { get; }
         int NestingLevel { get; }
+        string Name { get; }
 
         bool IsBlock { get; }
 
@@ -19,5 +20,6 @@ namespace Ck2.Save
         /// <returns></returns>
         IDataElement ProcessLine(string line);
 
+        IEnumerable<IDataElement> GetDescendants(string name);
     }
 }

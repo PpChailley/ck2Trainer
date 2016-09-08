@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Ck2.Save
@@ -5,8 +6,11 @@ namespace Ck2.Save
     [System.Diagnostics.DebuggerDisplay("{ToString()}")]
     public class DataString : IDataElement
     {
-        public bool IsBlock => false;
         private string _s;
+
+        public string Name => string.Empty;
+        public bool IsBlock => false;
+
 
         public DataString(IDataElement parent)
         {
@@ -28,7 +32,11 @@ namespace Ck2.Save
             return Parent;
         }
 
-        
+        public IEnumerable<IDataElement> GetDescendants(string name)
+        {
+            return new IDataElement[] {};
+        }
+
 
         public override string ToString()
         {

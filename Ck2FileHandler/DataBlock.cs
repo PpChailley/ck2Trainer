@@ -101,5 +101,20 @@ namespace Ck2.Save
             return sb.ToString();
         }
 
+        public IEnumerable<IDataElement> GetDescendants(string name)
+        {
+            List<IDataElement> l = new List<IDataElement>(1000);
+
+            foreach (var dataElement in Children)
+            {
+                if (dataElement.Name.Equals(name))
+                {
+                    l.Add(dataElement);
+                }
+                l.AddRange(dataElement.GetDescendants(name));
+            }
+
+            return l;
+        }
     }
 }

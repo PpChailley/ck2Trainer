@@ -6,6 +6,14 @@ namespace Ck2.Save
     [System.Diagnostics.DebuggerDisplay("{ToString()}")]
     public class DataLine : IDataElement
     {
+        public string Name => AsKeyVal != null ? AsKeyVal.Key : string.Empty;
+
+        public IEnumerable<IDataElement> GetDescendants(string name)
+        {
+            return new IDataElement[] { };
+        }
+
+
         public bool IsBlock => false;
 
         public string AsText;

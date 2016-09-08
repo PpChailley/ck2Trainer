@@ -32,6 +32,13 @@ namespace Ck2.Save.Test
             Assert.That(playerId, Is.Not.EqualTo(0));
         }
 
+        [Test]
+        public void ReadPlayerObject()
+        {
+            var player = _file.Player;
+        }
+
+
 
 
     }

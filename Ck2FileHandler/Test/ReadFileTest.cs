@@ -93,5 +93,76 @@ namespace Ck2.Save.Test
         }
 
 
+
+
     }
+
+    [TestFixture]
+    public class FileContentsTest
+    {
+        private SaveFile _file;
+
+
+        [TestFixtureSetUp]
+        public void SetUp()
+        {
+            _file = new SaveFile(ReadFileTest.SHORT_FILE);
+            _file.Parse();
+        }
+
+
+
+
+
+        [TestCase("player", 1)]
+        [TestCase("flags", 1)]
+        [TestCase("dynasties", 1)]
+        [TestCase("character", 1)]
+        [TestCase("relation", 1)]
+        [TestCase("id", 1)]
+        [TestCase("religion", 1)]
+        [TestCase("provinces", 1)]
+        [TestCase("title", 1)]
+        [TestCase("nomad", 1)]
+        [TestCase("diplomacy", 1)]
+        [TestCase("combat", 1)]
+        [TestCase("war", 1)]
+        [TestCase("coalition", 1)]
+        [TestCase("previous_war", 1)]
+        [TestCase("disease", 1)]
+        [TestCase("income_statistics", 1)]
+        [TestCase("character_history", 1)]
+        [TestCase("nomad_relation", 1)]
+        [TestCase("character_action", 1)]
+        public void FindAllMandatoryUniqueBlocks(string name, int expectedCount)
+        {
+            FindAllDescendants(name, expectedCount, true);
+        }
+
+        [TestCase("version", 1, false)]
+        [TestCase("date", 1, false)]
+        [TestCase("pagan_coa", 1, false)]
+        [TestCase("player_realm", 1, false)]
+        [TestCase("base_title", 1, false)]
+        [TestCase("is_zeus_save", 1, false)]
+        [TestCase("unit", 1, false)]
+        [TestCase("sub_unit", 1, false)]
+        [TestCase("start_date", 1, false)]
+        [TestCase("next_outbreak_id", 1, false)]
+        [TestCase("vc_data", 1, false)]
+        public void FindAllMandatoryUniqueKV(string name, int expectedCount, bool expectedAsBlock = true)
+        {
+            FindAllDescendants(name, expectedCount, expectedAsBlock);
+        }
+
+        private void FindAllDescendants(string name, int expectedCount, bool expectedAsBlock)
+        {
+            var objects = _file.RootBlock.GetDescendants(name);
+
+            Assert.That(objects, Has.Count.EqualTo(expectedCount));
+            Assert.That(objects.First(), Is.InstanceOf(typeof(DataLine)));
+            Assert.That((objects.First() as DataLine).IsBlock, Is.EqualTo(expectedAsBlock));
+        }
+    }
+
 }

@@ -15,8 +15,19 @@ namespace Ck2.Save
 
         public int NbReadLines { get; private set; }
 
-        public DataBlock RootBlock { get; private set; }
 
+        private DataBlock _rootBlock;
+        public DataBlock RootBlock
+        {
+            get
+            {
+                if (_rootBlock == null)
+                    throw new InvalidOperationException("Cannot access data objects before parsing");
+
+                return _rootBlock;
+            }
+            private set { _rootBlock = value; }
+        }
 
 
         public SaveFile(string s) : this(new FileInfo(s)) { }

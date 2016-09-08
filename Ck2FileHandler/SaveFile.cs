@@ -106,13 +106,13 @@ namespace Ck2.Save
 
         private bool ReportProgress(CallerContext context)
         {
-            if (context.Cancel.IsCancellationRequested)
+            if (context.CancelToken.IsCancellationRequested)
             {
                 RemoveParsedData();
                 return true;
             }
 
-            context.Progress.Report(NbReadLines);
+            context.ProgressReport(NbReadLines);
             return false;
         }
 

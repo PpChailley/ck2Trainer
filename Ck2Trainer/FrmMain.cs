@@ -18,6 +18,13 @@ namespace Ck2.Trainer
         //public const string DEFAULT_SEARCH_PATH = COMMON_PATH + @"\Documents\Paradox Interactive\Crusader Kings II\save games";
         public const string DEFAULT_SEARCH_PATH = COMMON_PATH + @"\IsoFiling\Development\ck2Trainer\Data\readonly";
 
+        private const float AVG_CHAR_PER_LINE = 17.4F;
+
+        private FileInfo _selectedFile;
+        private DirectoryInfo _selectedDir;
+
+
+
         #region internals
 
         public static FrmMain Singleton;
@@ -54,7 +61,7 @@ namespace Ck2.Trainer
         #region events
 
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void FrmMain_Load(object sender, EventArgs e)
         {
             ResetFilePropertiesList();
             PopulateProcessorsList();
@@ -75,11 +82,11 @@ namespace Ck2.Trainer
         private void BrowseClick(object sender, EventArgs e)
         {
             FolderBrowserDialog.Description = "Choose root of savegames folder";
-            FolderBrowserDialog.SelectedPath = PathTextBox.Text;
+            FolderBrowserDialog.SelectedPath = tbSaveDir.Text;
             FolderBrowserDialog.ShowDialog();
-            PathTextBox.Text = FolderBrowserDialog.SelectedPath;
+            tbSaveDir.Text = FolderBrowserDialog.SelectedPath;
 
-            FrmMain.AddLogEntry($"cd '{PathTextBox.Text}'");
+            FrmMain.AddLogEntry($"cd '{tbSaveDir.Text}'");
             int nbFilesFound = ListFilesInSelectedDir();
             FrmMain.AddLogEntry($" - Found {nbFilesFound} save files");
 
@@ -87,7 +94,7 @@ namespace Ck2.Trainer
 
         private int ListFilesInSelectedDir()
         {
-            int toreturn = ListFilesRecursive(PathTextBox.Text);
+            int toreturn = ListFilesRecursive(tbSaveDir.Text);
             return toreturn;
         }
 
@@ -106,15 +113,13 @@ namespace Ck2.Trainer
 
         private void ListFilesClick(object sender, EventArgs e)
         {
-            try
-            {
-                LoadSelectedFileParallel();
-            }
-            // TODO: find a good exception to put here
-            catch (AggregateException ex)
-            {
-                MessageBox.Show(this, ex.Message, ex.GetType().Name, MessageBoxButtons.OK);
-            }
+            LoadSelectedFileParallel();
+        }
+
+        private void lbAvailableFiles_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string fullPath = _selectedDir + @"\\" + lbAvailableFiles.SelectedItem.ToString();
+            _selectedFile = new FileInfo(fullPath);
         }
 
 
@@ -156,17 +161,15 @@ namespace Ck2.Trainer
         private void LoadSelectedFileParallel()
         {
             SetUiEnable(false);
-            Action reEnableUi = () => { SetUiEnable(true); };
-
-            Action<Exception> handleError = (ex => MessageBox.Show(ex.Message));
 
             try
             {
                 var context = PrepareContextBeforeProcessing();
-
                 var task = Task.Factory.StartNew(() =>
                 {
-                    _loadedSaveFile = new Ck2SaveFile(SelectedFile);
+                    Thread.CurrentThread.Name += " - Worker Load File";
+
+                    _loadedSaveFile = new Ck2SaveFile(_selectedFile);
                     _loadedSaveFile.Parse(context);
 
                     context.CancelToken.ThrowIfCancellationRequested();
@@ -175,13 +178,27 @@ namespace Ck2.Trainer
                 TaskCreationOptions.LongRunning, 
                 TaskScheduler.Default
                 );
-
             }
-            catch (Exception ex)
+            finally
             {
-                handleError(ex);
-                reEnableUi();
+                SetUiEnable(true);
             }
+        }
+
+        /// <summary>
+        /// Set the UI to accept or not user interaction, except Cancel
+        /// </summary>
+        /// <param name="acceptProcessingOrders"></param>
+        private void SetUiEnable(bool acceptProcessingOrders)
+        {
+            cbClearFileList.Enabled = !acceptProcessingOrders;
+            cbListFiles.Enabled = !acceptProcessingOrders;
+            cbWriteToFile.Enabled = !acceptProcessingOrders;
+            cbBrowse.Enabled = !acceptProcessingOrders;
+            cbApplyProcessor.Enabled = !acceptProcessingOrders;
+            cbClearLog.Enabled = !acceptProcessingOrders;
+
+            cbCancel.Enabled = acceptProcessingOrders;
         }
 
         private CallerContext PrepareContextBeforeProcessing()
@@ -204,24 +221,15 @@ namespace Ck2.Trainer
 
             ProgressBar.Value = 0;
             ProgressBar.Minimum = 0;
-            ProgressBar.Maximum = EstimateNbLines(SelectedFile);
+            ProgressBar.Maximum = EstimateNbLines(_selectedFile);
             return context;
         }
 
-        /// <summary>
-        /// Returns File lesected by the UI
-        /// </summary>
-        public FileInfo SelectedFile
+        private int EstimateNbLines(FileInfo f)
         {
-            get
-            {
-                if (lbAvailableFiles.SelectedItem == null)
-                    throw new InvalidOperationException("No file selected");
-
-                return new FileInfo(PathTextBox.Text + lbAvailableFiles.SelectedItem);
-            }
-
+            return (int) (f.Length / AVG_CHAR_PER_LINE);
         }
+
 
         private void PopulateProcessorsList()
         {
@@ -270,7 +278,7 @@ namespace Ck2.Trainer
 
         private void SetDefaultPathForFileSearch()
         {
-            PathTextBox.Text = DEFAULT_SEARCH_PATH;
+            tbSaveDir.Text = DEFAULT_SEARCH_PATH;
         }
 
         private void cbListFiles_Click(object sender, EventArgs e)
@@ -282,6 +290,11 @@ namespace Ck2.Trainer
         {
             lbAvailableFiles.Items.Clear();
             lbAvailableFiles.Refresh();
+        }
+
+        private void PathTextBox_TextChanged(object sender, EventArgs e)
+        {
+            _selectedDir = new DirectoryInfo(tbSaveDir.Text);
         }
     }
 }

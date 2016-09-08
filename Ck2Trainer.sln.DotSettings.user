@@ -7,6 +7,9 @@
   &lt;Assembly Path="C:\Windows\Microsoft.NET\Framework\v4.0.30319\mscorlib.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>
 	<s:String x:Key="/Default/Environment/ContinuousTesting/PersistentDataLocation/@EntryValue">C:\Users\Pipo\AppData\Local\Temp\JetBrains\ContinuousTesting\62fdf6e6-1d3e-4b84-ae22-e055a8f9dc99</s:String>
-	<s:String x:Key="/Default/Environment/ContinuousTesting/SnapshotLocation/@EntryValue">C:\Users\Pipo\AppData\Local\Temp\ssm.Senojoc.tmp</s:String>
+	<s:String x:Key="/Default/Environment/ContinuousTesting/SnapshotLocation/@EntryValue">C:\Users\Pipo\AppData\Local\Temp\ssm.Bykapug.tmp</s:String>
 	<s:String x:Key="/Default/Environment/ContinuousTesting/Strategy/@EntryValue">DetectTests</s:String>
-	<s:String x:Key="/Default/Environment/ContinuousTesting/TriggerMode/@EntryValue">OnSave</s:String></wpf:ResourceDictionary>
+	<s:String x:Key="/Default/Environment/ContinuousTesting/TriggerMode/@EntryValue">OnSave</s:String>
+	
+	
+	<s:Int64 x:Key="/Default/Environment/ContinuousTestingSessionDescriptor/GroupingIndex/@EntryValue">0</s:Int64></wpf:ResourceDictionary>

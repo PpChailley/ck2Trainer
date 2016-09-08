@@ -6,14 +6,14 @@ namespace Ck2.Save
 {
     public struct CallerContext
     {
-        public CancellationToken Cancel;
+        public CancellationToken CancelToken;
         //public IProgress<int> Progress;
         public Action<int> ProgressReport;
         //public ParallelLoopState LoopState;
 
         public static CallerContext Empty => new CallerContext()
         {
-            Cancel = new CancellationToken(),
+            CancelToken = new CancellationToken(),
             // LoopState = null,
             // Progress = new Progress<int>()
             ProgressReport = (i => { })

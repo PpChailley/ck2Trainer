@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
-using Ck2.Trainer;
 
-namespace Ck2Trainer
+namespace Ck2.Trainer
 {
     static class Program
     {
@@ -15,6 +12,8 @@ namespace Ck2Trainer
         [STAThread]
         static void Main()
         {
+            Thread.CurrentThread.Name += " - MainThread";
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new FrmMain());

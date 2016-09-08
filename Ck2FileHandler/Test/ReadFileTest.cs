@@ -133,7 +133,6 @@ namespace Ck2.Save.Test
         [TestCase("income_statistics", 1)]
         [TestCase("character_history", 1)]
         [TestCase("nomad_relation", 1)]
-        [TestCase("character_action", 1)]
         public void FindAllMandatoryUniqueBlocks(string name, int expectedCount)
         {
             FindAllDescendants(name, expectedCount, true);
@@ -149,6 +148,7 @@ namespace Ck2.Save.Test
         [TestCase("sub_unit", 1, false)]
         [TestCase("start_date", 1, false)]
         [TestCase("next_outbreak_id", 1, false)]
+        [TestCase("character_action", 1, false)]
         [TestCase("vc_data", 1, false)]
         public void FindAllMandatoryUniqueKV(string name, int expectedCount, bool expectedAsBlock = true)
         {

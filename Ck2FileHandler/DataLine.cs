@@ -14,7 +14,7 @@ namespace Ck2.Save
         }
 
 
-        public bool IsBlock => false;
+        public bool IsBlock => AsKeyVal?.Value.IsBlock ?? false;
 
         public string AsText;
         public KeyValuePair AsKeyVal;

@@ -38,24 +38,20 @@ namespace Ck2.Save
 
         private void CheckFileValidity()
         {
-            var s = _file.OpenText();
+            var fileHeader = RootBlock.Children[0];
+            var fileVersion = RootBlock.Children[1];
 
-            try
-            {
-                var openingLine = s.ReadLine();
-                var versionLine = s.ReadLine();
-                if (openingLine.Equals("CK2txt") == false)
-                {
-                    throw new InvalidOperationException("File early consistency check fails. Refuse to open");
-                }
-                if (versionLine.Trim().Equals("version=\"2.5.2.0\"") == false)
-                {
-                    throw new InvalidOperationException("File Version mismatch. Refuse to open");
-                }
+            if ( fileHeader is DataLine == false
+                || ((DataLine)fileHeader).AsText.Equals("CK2txt") == false)
+            { 
+                throw new InvalidOperationException("File early consistency check fails. Refuse to open");
             }
-            finally
+
+            if (fileVersion is DataLine == false
+                || ((DataLine)fileVersion).AsText.Equals("version=\"2.5.2.0\"") == false)
+
             {
-                s.Close();
+                throw new InvalidOperationException("File Version mismatch. Refuse to open");
             }
         }
 
@@ -74,6 +70,16 @@ namespace Ck2.Save
                 {
                      target = target.ProcessLine(subLine);
                 }
+
+                if (NbReadLines == 5 || _stream.EndOfStream)
+                {
+                    CheckFileValidity();
+                }
+            }
+
+            if (RootBlock.Children.Count == 0)
+            {
+                throw new InvalidOperationException("Could not read any data. Possibly empty file");
             }
         }
 

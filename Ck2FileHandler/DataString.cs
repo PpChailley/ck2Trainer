@@ -6,7 +6,7 @@ namespace Ck2.Save
     public class DataString : IDataElement
     {
         public bool IsBlock => false;
-        string S;
+        private string _s;
 
         public DataString(IDataElement parent)
         {
@@ -15,7 +15,7 @@ namespace Ck2.Save
 
         public DataString(IDataElement parent, string valueString) : this(parent)
         {
-            S = valueString;
+            _s = valueString;
         }
 
         public IList<IDataElement> Children => new List<IDataElement>(0);
@@ -24,7 +24,7 @@ namespace Ck2.Save
 
         public IDataElement ProcessLine(string line)
         {
-            S = line;
+            _s = line;
             return Parent;
         }
 
@@ -32,7 +32,7 @@ namespace Ck2.Save
 
         public override string ToString()
         {
-            return $"<<{S}>>";
+            return $"<<{_s}>>";
         }
     }
 }

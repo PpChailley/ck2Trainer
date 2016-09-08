@@ -35,10 +35,11 @@ namespace Ck2.Save.Test
             var f = new SaveFile(TEST_FILE);
         }
 
-        [Test, ExpectedException(typeof(NullReferenceException))]
+        [Test, ExpectedException(typeof(InvalidOperationException))]
         public void EmptyFile()
         {
             var f = new SaveFile(EMPTY_FILE);
+            f.Parse();
         }
 
         [Test, ExpectedException(typeof(ArgumentException))]
@@ -51,6 +52,7 @@ namespace Ck2.Save.Test
         public void InvalidFile()
         {
             var f = new SaveFile(INVALID_FILE);
+            f.Parse();
         }
 
 

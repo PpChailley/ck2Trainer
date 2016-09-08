@@ -98,7 +98,7 @@
             this.cbBrowse.TabIndex = 3;
             this.cbBrowse.Text = "...";
             this.cbBrowse.UseVisualStyleBackColor = true;
-            this.cbBrowse.Click += new System.EventHandler(this.BrowseClick);
+            this.cbBrowse.Click += new System.EventHandler(this.cbBrowse_Click);
             // 
             // cbLoadFile
             // 
@@ -108,7 +108,7 @@
             this.cbLoadFile.TabIndex = 9;
             this.cbLoadFile.Text = "Load File";
             this.cbLoadFile.UseVisualStyleBackColor = true;
-            this.cbLoadFile.Click += new System.EventHandler(this.ListFilesClick);
+            this.cbLoadFile.Click += new System.EventHandler(cbLoadFiles_Click);
             // 
             // cbWriteToFile
             // 
@@ -181,7 +181,7 @@
             this.cbApplyProcessor.TabIndex = 13;
             this.cbApplyProcessor.Text = " --- Apply --->";
             this.cbApplyProcessor.UseVisualStyleBackColor = true;
-            this.cbApplyProcessor.Click += new System.EventHandler(this.btnApplyProcessor_Click);
+            this.cbApplyProcessor.Click += new System.EventHandler(this.cbApplyProcessor_Click);
             // 
             // cbCancel
             // 

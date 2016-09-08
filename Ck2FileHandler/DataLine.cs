@@ -18,7 +18,23 @@ namespace Ck2.Save
 
         public bool IsBlock => AsKeyVal?.Value.IsBlock ?? false;
 
-        public string AsText;
+        private string _asText;
+        public string AsText
+        {
+            get
+            {
+                if (_asText != null)
+                    return _asText;
+                else
+                    return AsKeyVal.ToWritableString(0);
+            }
+            set
+            {
+                _asText = value;
+                ToBestRepresentation();
+            }
+        }
+
         public KeyValuePair AsKeyVal;
         public bool HasTriedKeyVal = false;
 
@@ -37,7 +53,7 @@ namespace Ck2.Save
 
         public IDataElement ProcessLine(string line)
         {
-            AsText = line.Trim();
+            _asText = line.Trim();
             HasTriedKeyVal = false;
             ToBestRepresentation();
 
@@ -55,6 +71,10 @@ namespace Ck2.Save
             var keyval = KeyValuePair.FromDataLine(this);
             AsKeyVal = keyval;
             HasTriedKeyVal = true;
+
+            // Don't keep duplicates in memory
+            if (AsKeyVal != null)
+                _asText = null;
         }
 
 

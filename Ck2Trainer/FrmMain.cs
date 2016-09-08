@@ -12,7 +12,9 @@ namespace Ck2.Trainer
 {
     public partial class FrmMain : Form
     {
-        public const string DEFAULT_SEARCH_PATH = @"D:\Users\pipo\Dropbox\Documents\Paradox Interactive\Crusader Kings II\save games";
+        public const string COMMON_PATH = @"D:\Users\pipo\Dropbox";
+        //public const string DEFAULT_SEARCH_PATH = COMMON_PATH + @"\Documents\Paradox Interactive\Crusader Kings II\save games";
+        public const string DEFAULT_SEARCH_PATH = COMMON_PATH + @"\IsoFiling\Development\ck2Trainer\Data\readonly";
 
         #region internals
 
@@ -55,6 +57,7 @@ namespace Ck2.Trainer
             PopulateProcessorsList();
             SetDefaultPathForFileSearch();
             ListFilesInSelectedDir();
+
         }
 
 
@@ -140,7 +143,7 @@ namespace Ck2.Trainer
             {
                 LoadSelectedFile();
             }
-            catch (Exception ex)
+            catch (AggregateException ex)
             {
                 MessageBox.Show(this, ex.Message, ex.GetType().Name, MessageBoxButtons.OK);
             }
@@ -216,7 +219,15 @@ namespace Ck2.Trainer
             PathTextBox.Text = DEFAULT_SEARCH_PATH;
         }
 
+        private void cbListFiles_Click(object sender, EventArgs e)
+        {
+            ListFilesInSelectedDir();
+        }
 
-
+        private void cbClearFileList_Click(object sender, EventArgs e)
+        {
+            lbAvailableFiles.Items.Clear();
+            lbAvailableFiles.Refresh();
+        }
     }
 }

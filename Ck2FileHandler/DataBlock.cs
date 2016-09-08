@@ -19,7 +19,7 @@ namespace Ck2.Save
 
         public DataBlock(IDataElement parent, string beforeFirstLine = null)
         {
-            Children = new List<IDataElement>(10000);
+            Children = new List<IDataElement>();
             Parent = parent;
             NestingLevel = parent?.NestingLevel +1 ?? 0;
         }

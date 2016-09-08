@@ -41,6 +41,8 @@
             this.gbAvailableFiles = new System.Windows.Forms.GroupBox();
             this.lbAvailableFiles = new System.Windows.Forms.ListBox();
             this.btnApplyProcessor = new System.Windows.Forms.Button();
+            this.cbClearFileList = new System.Windows.Forms.Button();
+            this.cbListFiles = new System.Windows.Forms.Button();
             this.gbAvailableFiles.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -98,7 +100,7 @@
             // 
             // ListFiles
             // 
-            this.ListFiles.Location = new System.Drawing.Point(350, 20);
+            this.ListFiles.Location = new System.Drawing.Point(351, 97);
             this.ListFiles.Name = "ListFiles";
             this.ListFiles.Size = new System.Drawing.Size(80, 30);
             this.ListFiles.TabIndex = 9;
@@ -108,7 +110,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(350, 56);
+            this.button1.Location = new System.Drawing.Point(363, 358);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(80, 30);
             this.button1.TabIndex = 10;
@@ -126,10 +128,11 @@
             // 
             // gbAvailableFiles
             // 
+            this.gbAvailableFiles.Controls.Add(this.cbListFiles);
+            this.gbAvailableFiles.Controls.Add(this.cbClearFileList);
             this.gbAvailableFiles.Controls.Add(this.lbAvailableFiles);
             this.gbAvailableFiles.Controls.Add(this.PathTextBox);
             this.gbAvailableFiles.Controls.Add(this.browseButton);
-            this.gbAvailableFiles.Controls.Add(this.button1);
             this.gbAvailableFiles.Controls.Add(this.ListFiles);
             this.gbAvailableFiles.Location = new System.Drawing.Point(11, 12);
             this.gbAvailableFiles.Name = "gbAvailableFiles";
@@ -157,6 +160,26 @@
             this.btnApplyProcessor.UseVisualStyleBackColor = true;
             this.btnApplyProcessor.Click += new System.EventHandler(this.btnApplyProcessor_Click);
             // 
+            // cbClearFileList
+            // 
+            this.cbClearFileList.Location = new System.Drawing.Point(351, 23);
+            this.cbClearFileList.Name = "cbClearFileList";
+            this.cbClearFileList.Size = new System.Drawing.Size(80, 30);
+            this.cbClearFileList.TabIndex = 13;
+            this.cbClearFileList.Text = "Clear";
+            this.cbClearFileList.UseVisualStyleBackColor = true;
+            this.cbClearFileList.Click += new System.EventHandler(this.cbClearFileList_Click);
+            // 
+            // cbListFiles
+            // 
+            this.cbListFiles.Location = new System.Drawing.Point(352, 59);
+            this.cbListFiles.Name = "cbListFiles";
+            this.cbListFiles.Size = new System.Drawing.Size(80, 30);
+            this.cbListFiles.TabIndex = 14;
+            this.cbListFiles.Text = "List";
+            this.cbListFiles.UseVisualStyleBackColor = true;
+            this.cbListFiles.Click += new System.EventHandler(this.cbListFiles_Click);
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -166,6 +189,7 @@
             this.Controls.Add(this.lbFileProperties);
             this.Controls.Add(this.gbAvailableFiles);
             this.Controls.Add(this.ClearLog);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.LogList);
             this.Controls.Add(this.ProgressBar);
             this.Controls.Add(this.lbProcessors);
@@ -193,6 +217,8 @@
         private System.Windows.Forms.GroupBox gbAvailableFiles;
         private System.Windows.Forms.Button btnApplyProcessor;
         private System.Windows.Forms.ListBox lbAvailableFiles;
+        private System.Windows.Forms.Button cbListFiles;
+        private System.Windows.Forms.Button cbClearFileList;
     }
 }
 

@@ -168,6 +168,14 @@ namespace Ck2.Save.Test
 
 
         [TestCase("dynasties", null, 10, 100)]
+        [TestCase("character", null, 10, 10000)]
+        [TestCase("relation", null, 10, 1000)]
+        [TestCase("religion", null, 10, 100)]
+        [TestCase("provinces", null, 10, 100)]
+        [TestCase("title", null, 10, 100)]
+        [TestCase("nomad", null, 10, 100)]
+        [TestCase("combat", null, 10, 100)]
+        [TestCase("nomad_relation", null, 3, 100)]
         public void FindSomeNestedBlocks(string uniqueParentName, string name, int minCount, int maxCount)
         {
             FindAllDescendants(uniqueParentName, name, minCount, maxCount, true);

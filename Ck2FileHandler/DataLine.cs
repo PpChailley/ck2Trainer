@@ -69,7 +69,7 @@ namespace Ck2.Save
         public string ToIndentedString()
         {
             if (AsKeyVal == null)
-                return new string('\t', NestingLevel - 1) + AsText;
+                return new string('\t', NestingLevel) + AsText;
             else
                 return new string('\t', NestingLevel) + AsKeyVal.ToWritableString(0);
         }

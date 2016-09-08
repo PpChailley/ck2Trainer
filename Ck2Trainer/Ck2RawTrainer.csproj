@@ -48,6 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FilesHandler.cs" />
     <Compile Include="FrmMain.Control.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -60,6 +61,7 @@
     <Compile Include="OldProcessors\IFileProcessor.cs" />
     <Compile Include="OldProcessors\MoraleToZeroFileProcessor.cs" />
     <Compile Include="OldProcessors\PlayerMoraleToOneFileProcessor.cs" />
+    <Compile Include="ProcessorsHandler.cs" />
     <Compile Include="Processors\FileChangeSet.cs" />
     <Compile Include="Processors\ICk2Processor.cs" />
     <Compile Include="Processors\NoActionProcessor.cs" />

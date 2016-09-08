@@ -14,17 +14,18 @@ namespace Ck2.Trainer
 
         public FrmMain()
         {
-            LoadedFileProcessors = new Dictionary<string, Type>();
             InitializeComponent();
             Singleton = this;
+            FilesHandler = new FilesHandler(this);
+            ProcessorsHandler = new ProcessorsHandler(this);
         }
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
             ResetFilePropertiesList();
-            PopulateProcessorsList();
+            ProcessorsHandler.PopulateProcessorsList();
             SetDefaultPathForFileSearch();
-            ListFilesInSelectedDir();
+            FilesHandler.ListFilesInSelectedDir();
         }
 
         private void cbBrowse_Click(object sender, EventArgs e)
@@ -35,7 +36,7 @@ namespace Ck2.Trainer
             tbSaveDir.Text = FolderBrowserDialog.SelectedPath;
 
             FrmMain.AddLogEntry($"cd '{tbSaveDir.Text}'");
-            int nbFilesFound = ListFilesInSelectedDir();
+            int nbFilesFound = FilesHandler.ListFilesInSelectedDir();
             FrmMain.AddLogEntry($" - Found {nbFilesFound} save files");
 
         }
@@ -45,8 +46,8 @@ namespace Ck2.Trainer
         {
             try
             {
-                if (ConfirmApplySelectedProcessor())
-                    ApplySelectedProcessor();
+                if (ProcessorsHandler.ConfirmApplySelectedProcessor())
+                    ProcessorsHandler.ApplySelectedProcessor();
             }
             catch (InvalidOperationException ioe)
             {
@@ -57,8 +58,8 @@ namespace Ck2.Trainer
 
         private void lbAvailableFiles_SelectedIndexChanged(object sender, EventArgs e)
         {
-            string fullPath = _selectedDir + @"\\" + lbAvailableFiles.SelectedItem.ToString();
-            _selectedFile = new FileInfo(fullPath);
+            string fullPath = FilesHandler.SelectedDir + @"\\" + lbAvailableFiles.SelectedItem.ToString();
+            FilesHandler.SelectedFile = new FileInfo(fullPath);
         }
 
 
@@ -76,7 +77,7 @@ namespace Ck2.Trainer
         /// Set the UI to accept or not user interaction, except Cancel
         /// </summary>
         /// <param name="acceptProcessingOrders"></param>
-        private void SetUiEnable(bool acceptProcessingOrders)
+        internal void SetUiEnable(bool acceptProcessingOrders)
         {
             cbClearFileList.Enabled = !acceptProcessingOrders;
             cbListFiles.Enabled = !acceptProcessingOrders;
@@ -88,7 +89,7 @@ namespace Ck2.Trainer
             cbCancel.Enabled = acceptProcessingOrders;
         }
 
-        private CallerContext PrepareContextBeforeProcessing()
+        internal CallerContext PrepareContextBeforeProcessing()
         {
             var cts = new CancellationTokenSource();
             var syncContext = SynchronizationContext.Current;
@@ -108,7 +109,7 @@ namespace Ck2.Trainer
 
             ProgressBar.Value = 0;
             ProgressBar.Minimum = 0;
-            ProgressBar.Maximum = Ck2SaveFile.EstimateNbLines(_selectedFile);
+            ProgressBar.Maximum = Ck2SaveFile.EstimateNbLines(FilesHandler.SelectedFile);
             return context;
         }
 
@@ -118,12 +119,12 @@ namespace Ck2.Trainer
 
         private void cbLoadFiles_Click(object sender, EventArgs e)
         {
-            LoadSelectedFileParallel();
+            FilesHandler.LoadSelectedFileParallel();
         }
 
         private void cbListFiles_Click(object sender, EventArgs e)
         {
-            ListFilesInSelectedDir();
+            FilesHandler.ListFilesInSelectedDir();
         }
 
         private void cbClearFileList_Click(object sender, EventArgs e)
@@ -134,7 +135,7 @@ namespace Ck2.Trainer
 
         private void PathTextBox_TextChanged(object sender, EventArgs e)
         {
-            _selectedDir = new DirectoryInfo(tbSaveDir.Text);
+            FilesHandler.SelectedDir = new DirectoryInfo(tbSaveDir.Text);
         }
     }
 }

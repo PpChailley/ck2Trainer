@@ -217,19 +217,19 @@
 
         #endregion
 
-        private System.Windows.Forms.ListBox lbProcessors;
+        internal System.Windows.Forms.ListBox lbProcessors;
         private System.Windows.Forms.ProgressBar ProgressBar;
         private System.Windows.Forms.ListBox LogList;
         private System.Windows.Forms.Button cbClearLog;
-        private System.Windows.Forms.TextBox tbSaveDir;
+        internal System.Windows.Forms.TextBox tbSaveDir;
         private System.Windows.Forms.Button cbBrowse;
         private System.Windows.Forms.FolderBrowserDialog FolderBrowserDialog;
         private System.Windows.Forms.Button cbLoadFile;
         private System.Windows.Forms.Button cbWriteToFile;
-        private System.Windows.Forms.ListBox lbFileProperties;
+        internal System.Windows.Forms.ListBox lbFileProperties;
         private System.Windows.Forms.GroupBox gbAvailableFiles;
         private System.Windows.Forms.Button cbApplyProcessor;
-        private System.Windows.Forms.ListBox lbAvailableFiles;
+        internal System.Windows.Forms.ListBox lbAvailableFiles;
         private System.Windows.Forms.Button cbListFiles;
         private System.Windows.Forms.Button cbClearFileList;
         private System.Windows.Forms.Button cbCancel;

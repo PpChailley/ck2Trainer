@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CallerContext.cs" />
     <Compile Include="Ck2SaveFile.cs" />
     <Compile Include="DataString.cs" />
     <Compile Include="Extensions\StringExtension.cs" />

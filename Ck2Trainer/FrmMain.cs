@@ -4,6 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Ck2.Save;
 using Ck2.Trainer.Processors;
@@ -24,6 +26,7 @@ namespace Ck2.Trainer
 
 
         private SaveFile _loadedSaveFile;
+        private Action _cancelAction;
 
 
         public SaveFile LoadedSaveFile
@@ -101,6 +104,19 @@ namespace Ck2.Trainer
             }
         }
 
+        private void ListFilesClick(object sender, EventArgs e)
+        {
+            try
+            {
+                LoadSelectedFileParallel();
+            }
+            // TODO: find a good exception to put here
+            catch (AggregateException ex)
+            {
+                MessageBox.Show(this, ex.Message, ex.GetType().Name, MessageBoxButtons.OK);
+            }
+        }
+
 
         #endregion
 
@@ -137,26 +153,64 @@ namespace Ck2.Trainer
         }
 
 
-        private void ListFilesClick(object sender, EventArgs e)
+        private void LoadSelectedFileParallel()
         {
+            SetUiEnable(false);
+            Action reEnableUi = () => { SetUiEnable(true); };
+
+            Action<Exception> handleError = (ex => MessageBox.Show(ex.Message));
+
             try
             {
-                LoadSelectedFile();
+                var context = PrepareContextBeforeProcessing();
+
+                var task = Task.Factory.StartNew(() =>
+                {
+                    _loadedSaveFile = new Ck2SaveFile(SelectedFile);
+                    _loadedSaveFile.Parse(context);
+
+                    context.CancelToken.ThrowIfCancellationRequested();
+                },
+                context.CancelToken, 
+                TaskCreationOptions.LongRunning, 
+                TaskScheduler.Default
+                );
+
             }
-            catch (AggregateException ex)
+            catch (Exception ex)
             {
-                MessageBox.Show(this, ex.Message, ex.GetType().Name, MessageBoxButtons.OK);
+                handleError(ex);
+                reEnableUi();
             }
         }
 
-        private void LoadSelectedFile()
+        private CallerContext PrepareContextBeforeProcessing()
         {
-            _loadedSaveFile = new Ck2SaveFile(SelectedFile);
+            var cts = new CancellationTokenSource();
+            var syncContext = SynchronizationContext.Current;
+            Action<int> progressReport = (i => syncContext.Post(_ => ProgressBar.Increment(1), null));
 
-            //TODO: Background this
-            _loadedSaveFile.Parse();
+            var context = new CallerContext()
+            {
+                CancelToken = cts.Token,
+                ProgressReport = progressReport
+            };
+
+            _cancelAction = () =>
+            {
+                SetUiEnable(true);
+                cts.Cancel();
+            };
+
+            ProgressBar.Value = 0;
+            ProgressBar.Minimum = 0;
+            ProgressBar.Maximum = EstimateNbLines(SelectedFile);
+            return context;
         }
 
+        /// <summary>
+        /// Returns File lesected by the UI
+        /// </summary>
         public FileInfo SelectedFile
         {
             get

@@ -21,7 +21,7 @@ namespace Ck2.Save.Test
             new DirectoryInfo(TEMP_WRITE_DIR).Create();
 
             _file = new SaveFile(ReadFileTest.SHORT_FILE);
-            _file.Parse();
+            _file.Parse(CallerContext.Empty);
         }
 
         [Test]

@@ -13,7 +13,7 @@ namespace Ck2.Save.Test
         public void SetUp()
         {
             _file = new SaveFile(ReadFileTest.SHORT_FILE);
-            _file.Parse();
+            _file.Parse(CallerContext.Empty);
         }
 
 

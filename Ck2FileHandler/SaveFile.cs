@@ -13,6 +13,9 @@ namespace Ck2.Save
         private readonly StreamReader _stream;
         public bool EndOfStream => _stream.EndOfStream;
 
+        public bool FullyParsed = false;
+
+
         public int NbReadLines { get; private set; }
 
 
@@ -66,14 +69,19 @@ namespace Ck2.Save
             }
         }
 
-        public void Parse()
+        public void Parse(CallerContext context)
         {
+            FullyParsed = false;
+
             RootBlock = new DataBlock(null);
             IDataElement target = RootBlock;
 
+            if (ReportProgress(context)) return;
 
             while (_stream.EndOfStream == false)
             {
+                if (ReportProgress(context)) return;
+
                 var line = ReadLine();
                 var splitLine = SplitLine(line);
 
@@ -92,10 +100,28 @@ namespace Ck2.Save
             {
                 throw new InvalidOperationException("Could not read any data. Possibly empty file");
             }
+
+            FullyParsed = true;
         }
 
+        private bool ReportProgress(CallerContext context)
+        {
+            if (context.Cancel.IsCancellationRequested)
+            {
+                RemoveParsedData();
+                return true;
+            }
 
+            context.Progress.Report(NbReadLines);
+            return false;
+        }
 
+        private void RemoveParsedData()
+        {
+            RootBlock = null;
+            FullyParsed = false;
+            GC.Collect();
+        }
 
 
         private IEnumerable<string> SplitLine(string line)

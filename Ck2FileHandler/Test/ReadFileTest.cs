@@ -39,7 +39,7 @@ namespace Ck2.Save.Test
         public void EmptyFile()
         {
             var f = new SaveFile(EMPTY_FILE);
-            f.Parse();
+            f.Parse(CallerContext.Empty);
         }
 
         [Test, ExpectedException(typeof(ArgumentException))]
@@ -52,7 +52,7 @@ namespace Ck2.Save.Test
         public void InvalidFile()
         {
             var f = new SaveFile(INVALID_FILE);
-            f.Parse();
+            f.Parse(CallerContext.Empty);
         }
 
 
@@ -60,7 +60,7 @@ namespace Ck2.Save.Test
         public void VeryShortFileParse()
         {
             var file = new SaveFile(VERYSHORT_FILE);
-            file.Parse();
+            file.Parse(CallerContext.Empty);
             Assert.That(file.RootBlock.Children, Has.Count.GreaterThan(10));
             Assert.That(file.NbReadLines, Is.EqualTo(5338));
         }
@@ -70,7 +70,7 @@ namespace Ck2.Save.Test
         public void BigFileParse()
         {
             var file = new SaveFile(TEST_FILE);
-            file.Parse();
+            file.Parse(CallerContext.Empty);
             Assert.That(file.RootBlock.Children, Has.Count.GreaterThan(10));
             Assert.That(file.NbReadLines, Is.EqualTo(3828711));
         }
@@ -81,14 +81,14 @@ namespace Ck2.Save.Test
         [Test]
         public void ReadFileIntoTextBlocks()
         {
-            _file.Parse();
+            _file.Parse(CallerContext.Empty);
             Assert.That(_file.RootBlock.Children, Has.Count.GreaterThan(50));
         }
 
         [Test]
         public void ReadLinesCount()
         {
-            _file.Parse();
+            _file.Parse(CallerContext.Empty);
             Assert.That(_file.NbReadLines, Is.EqualTo(58709));
         }
 

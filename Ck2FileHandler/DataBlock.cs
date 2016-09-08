@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace Ck2.Save
@@ -8,6 +9,8 @@ namespace Ck2.Save
     [System.Diagnostics.DebuggerDisplay("{ToString()}")]
     public class DataBlock: IDataElement
     {
+        public bool IsBlock => true;
+
         public IList<IDataElement> Children { get; set; }
         public IDataElement Parent { get; }
         public int NestingLevel { get; set; }
@@ -15,88 +18,68 @@ namespace Ck2.Save
         private  bool _reachedEndOfBlock = false;
         public string Name { get; set; }
 
-        public DataBlock(IDataElement parent, SaveFile saveFile, string beforeFirstLine = null)
+        private bool _hasSeenOpeningBracket = false;
+
+        public DataBlock(IDataElement parent, string beforeFirstLine = null)
         {
             Children = new List<IDataElement>(1000);
             Parent = parent;
             NestingLevel = parent?.NestingLevel +1 ?? 0;
-            SaveFile = saveFile;
-            
-            BuildFrom(saveFile, beforeFirstLine, null);
         }
 
 
+        
 
-        private void BuildFrom(SaveFile file, string before, string after)
+
+        public IDataElement ProcessLine(string line)
         {
-            if (before != null)
+            if (line == null)
+                return this;
+
+            if (line.Equals("{"))
             {
-                ProcessLine(before);
-            }
-
-            while (file.EndOfStream == false && _reachedEndOfBlock == false) 
-            {
-                var line = file.ReadLine();
-                ProcessLine(line);
-            } 
-        }
-
-
-        public void ProcessLine(string line)
-        {
-            var originalLine = line;
-
-            if (line == null) return;
-
-            string inside = null;
-            string footer = null;
-
-            if (line.Contains("{"))
-            {
-                inside = line.Substring(line.IndexOf("{", StringComparison.Ordinal) + 1);
-                line = line.Substring(0, line.IndexOf("{", StringComparison.Ordinal));
-
-                if (inside.Contains("{") )
-                { throw new InvalidOperationException("One single line cannot contain two brackets."); }
-            }
-
-            if (line.Contains("}"))
-            {
-                footer = line.Substring(line.IndexOf("}", StringComparison.Ordinal));
-                line = line.Substring(0, line.IndexOf("}", StringComparison.Ordinal));
-            }
-
-            AddText(line);
-            AddChild(inside);
-            if (footer != null)
-            {
-                if (footer.StartsWith("}"))
+                if (_hasSeenOpeningBracket == false)
                 {
-                    footer = footer.Substring(1);
-                    _reachedEndOfBlock = true;
+                    _hasSeenOpeningBracket = true;
+                    return this;
                 }
-
-                Parent?.ProcessLine(footer);
+                else
+                {
+                    var newBornChild = new DataBlock(this);
+                    Children.Add(newBornChild);
+                    newBornChild.Name = $"Unnamed Child of ({this.Name})";
+                    return newBornChild;
+                }
+                
             }
-            
+            else if (line.Equals("}"))
+            {
+                return Parent;
+            }
+            else
+            {
+                return AddText(line);
+            }
         }
 
         private void AddChild(string line)
         {
             if (line == null) return;
-            // line = line.Trim();
-            // if (line.Equals(string.Empty)) return;
-
-            Children.Add(new DataBlock(this, SaveFile, line));
+            Children.Add(new DataBlock(this, line));
         }
 
-        private void AddText(string line)
+        private IDataElement AddText(string line)
         {
-            if (line == null) return;
+            if (line == null)
+                return this;
             line = line.Trim();
-            if (line.Equals(string.Empty)) return;
+            if (line.Equals(string.Empty))
+                return this;
 
-            Children.Add(new DataLine(line, this, NestingLevel + 1).ToBestRepresentation());
+            var dataLine = new DataLine(this, NestingLevel + 1);
+            Children.Add(dataLine);
+
+            return dataLine.ProcessLine(line);
         }
 
         public override string ToString()

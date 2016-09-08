@@ -6,3 +6,5 @@ Data
 .vs
 
 
+/ck2.Model.Mapping/bin
+/ck2.Model.Mapping/obj

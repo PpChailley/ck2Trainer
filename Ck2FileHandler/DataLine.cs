@@ -6,35 +6,54 @@ namespace Ck2.Save
     [System.Diagnostics.DebuggerDisplay("{ToString()}")]
     public class DataLine : IDataElement
     {
+        public bool IsBlock => false;
+
         public string Text;
         public IList<IDataElement> Children => new IDataElement[0];
 
         public IDataElement Parent { get; }
-        public SaveFile SaveFile => Parent.SaveFile;
         public int NestingLevel { get; }
 
-        public void ProcessLine(string line)
-        {
-            throw new InvalidOperationException();
-        }
+        public KeyValuePair AsKeyVal;
+        public bool HasTriedKeyVal = false;
 
-
-        public DataLine(string text, IDataElement parent, int nestingLevel)
+        public DataLine(IDataElement parent, int nestingLevel)
         {
             Parent = parent;
             NestingLevel = nestingLevel;
-            Text = text.Trim();
         }
+
+
+        public IDataElement ProcessLine(string line)
+        {
+            Text = line.Trim();
+            HasTriedKeyVal = false;
+            ToBestRepresentation();
+
+            if (AsKeyVal != null  && AsKeyVal.Value.IsBlock)
+                return AsKeyVal.Value;
+            else
+                return Parent;
+        }
+
+        private void ToBestRepresentation()
+        {
+            if (HasTriedKeyVal == true)
+                return;
+
+            var keyval = KeyValuePair.FromDataLine(this);
+            AsKeyVal = keyval;
+            HasTriedKeyVal = true;
+        }
+
 
         public override string ToString()
         {
-            return GetType().Name + " : " + Text;
+            if (AsKeyVal == null)
+                return GetType().Name + " : " + Text;
+            else
+                return AsKeyVal.ToString();
         }
 
-        public IDataElement ToBestRepresentation()
-        {
-            var keyval = KeyValuePair.FromDataLine(this);
-            return keyval ?? this;
-        }
     }
 }

@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.IO;
+using System.Text.RegularExpressions;
 using ck2.Mapping.Save.Model;
 
 namespace Ck2.Save
@@ -58,13 +61,12 @@ namespace Ck2.Save
 
 
 
-        public string ReadLine()
+        private string ReadLine()
         {
             var s = _stream.ReadLine();
             NbReadLines ++;
             return s;
         }
-
 
         private void CheckFileValidity()
         {
@@ -91,12 +93,39 @@ namespace Ck2.Save
 
         public void Parse()
         {
-            RootBlock = new DataBlock(null, this);
+            RootBlock = new DataBlock(null);
+            IDataElement target = RootBlock;
 
-            // TODO: Write to RootBlock sooner so that we can read it during debug
+
+            while (_stream.EndOfStream == false)
+            {
+                var line = ReadLine();
+                var splitLine = SplitLine(line);
+
+                foreach (var subLine in splitLine)
+                {
+                     target = target.ProcessLine(subLine);
+                }
+            }
         }
 
 
-        
+        private IList<string> SplitLine(string line)
+        {
+            List<string> l = new List<string>();
+            var regex = new Regex(@"(.*?)([\{\}])(.*)");
+            var matches = regex.Matches(line);
+
+            while (matches.Count > 0)
+            {
+                l.Add(matches[0].Groups[1].Value);
+                l.Add(matches[0].Groups[2].Value);
+                line = matches[0].Groups[3].Value;
+                matches = regex.Matches(line);
+            }
+
+            l.Add(line);
+            return l;
+        }
     }
 }

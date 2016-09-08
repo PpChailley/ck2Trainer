@@ -5,28 +5,30 @@ namespace Ck2.Save
     [System.Diagnostics.DebuggerDisplay("{ToString()}")]
     public class DataString : IDataElement
     {
+        public bool IsBlock => false;
         string S;
 
-        public DataString(string s, IDataElement parent)
+        public DataString(IDataElement parent)
         {
-            S = s;
             Parent = parent;
+        }
+
+        public DataString(IDataElement parent, string valueString) : this(parent)
+        {
+            S = valueString;
         }
 
         public IList<IDataElement> Children => new List<IDataElement>(0);
         public IDataElement Parent { get; private set; }
         public int NestingLevel => Parent.NestingLevel + 1;
-        public SaveFile SaveFile => Parent.SaveFile;
-        public void ProcessLine(string line)
+
+        public IDataElement ProcessLine(string line)
         {
-            // Do Nothing
+            S = line;
+            return Parent;
         }
 
-        public static IDataElement From(string s, IDataElement parent)
-        {
-            return new DataString(s, parent);
-        }
-
+        
 
         public override string ToString()
         {

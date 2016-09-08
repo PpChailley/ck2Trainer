@@ -6,66 +6,37 @@ using System.Text.RegularExpressions;
 namespace Ck2.Save
 {
     [System.Diagnostics.DebuggerDisplay("{ToString()}")]
-    public class KeyValuePair : IDataElement
+    public class KeyValuePair
     {
-        private readonly DataLine _line;
-        public SaveFile SaveFile => _line.SaveFile;
-
 
         public string Key { get; private set; }
         public IDataElement Value { get; private set; }
 
-        private KeyValuePair(string key, string value, DataLine line)
+
+        public static KeyValuePair FromDataLine(DataLine dataLine)
         {
-            if (line == null) throw new ArgumentNullException(nameof(line));
-
-            Key = key;
-            _line = line;
-            Value = DataString.From(value, Parent);
-
-            if (value.Trim().Equals(string.Empty))
-            {
-                ExpectValueFromNextLine();
-            }
-        }
-
-        private void ExpectValueFromNextLine()
-        {
-            var valueBlock = new DataBlock(this, _line.Parent.SaveFile);
-            valueBlock.Name = Key;
-            Value = valueBlock;
-            Children.Add(Value);
-        }
-
-        public IList<IDataElement> Children => new List<IDataElement>(0);
-        public IDataElement Parent => _line.Parent;
-        public int NestingLevel => _line.NestingLevel;
-
- 
-
-        public void ProcessLine(string line)
-        {
-            Parent.ProcessLine(line);
-        }
-
-
-        public static IDataElement FromDataLine(DataLine line)
-        {
-            if (line == null)
-            {
+            if (dataLine == null || dataLine.Text.Equals(string.Empty))
                 return null;
-            }
 
-            var matches = Regex.Matches(line.Text, @"(.+)=(.*)");
+            var matches = Regex.Matches(dataLine.Text, @"(.+)=(.*)");
 
-            if (matches.Count == 1)
+            if (matches.Count != 1)
+                return null;
+
+            var kv = new KeyValuePair {Key = matches[0].Groups[1].Value};
+            var valueString = matches[0].Groups[2].Value;
+
+            if (valueString.Equals(string.Empty))
             {
-                var key = matches[0].Groups[1].Value;
-                var valueString = matches[0].Groups[2].Value;
-                return new KeyValuePair(key, valueString, line);
+                kv.Value = new DataBlock(dataLine.Parent) { Name = kv.Key };
+            }
+            else
+            {
+                kv.Value = new DataString(dataLine.Parent, valueString);
             }
 
-            return null;
+            return kv;
+
         }
 
 
@@ -73,5 +44,10 @@ namespace Ck2.Save
         {
             return $"KVP: {Key} => {Value}";
         }
+
+
+
+
+
     }
 }

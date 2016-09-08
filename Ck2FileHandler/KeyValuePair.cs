@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using ck2.Mapping.Save.Extensions;
 
@@ -50,8 +51,18 @@ namespace Ck2.Save
             return $"KVP: {Key} => {Value}";
         }
 
+        public string ToWritableString(int indentLevel)
+        {
+            var sb = new StringBuilder();
 
+            sb.Append(new string('\t', indentLevel))
+                .Append(Key)
+                .Append("=")
+                .Append(Value.ToUnindentedString());
 
+            return sb.ToString();
+
+        }
 
 
     }

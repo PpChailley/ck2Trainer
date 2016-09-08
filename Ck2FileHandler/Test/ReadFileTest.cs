@@ -13,7 +13,8 @@ namespace Ck2.Save.Test
     {
         private SaveFile _file;
 
-        public const string DATAFILES_DIR = @"D:\Users\pipo\Dropbox\IsoFiling\Development\ck2Trainer\Data\readonly\";
+        public const string DATA_DIR = @"D:\Users\pipo\Dropbox\IsoFiling\Development\ck2Trainer\Data\";
+        public const string DATAFILES_DIR =     DATA_DIR + @"readonly\";
         public const string TEST_FILE =         DATAFILES_DIR + @"full.ck2";
         public const string SHORT_FILE =        DATAFILES_DIR + @"shortened.ck2";
         public const string VERYSHORT_FILE =    DATAFILES_DIR + @"veryshort.ck2";

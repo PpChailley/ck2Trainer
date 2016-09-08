@@ -77,29 +77,6 @@ namespace Ck2.Save
             return dataLine.ProcessLine(line);
         }
 
-        public override string ToString()
-        {
-            StringBuilder sb = new StringBuilder($"{GetType().Name} (Nest {NestingLevel}, Cnt {Children.Count}): ");
-
-            if (Name != null)
-            {
-                sb.Append($"[{Name}]");
-                return sb.ToString();
-            }
-
-            int childrenCount = 0;
-            foreach (var child in Children)
-            {
-                sb.Append(child.ToString());
-
-                if (childrenCount ++ > 4)
-                    break;
-
-                sb.Append(" -- ");
-            }
-
-            return sb.ToString();
-        }
 
         public IEnumerable<IDataElement> GetDescendants(string name)
         {
@@ -115,6 +92,40 @@ namespace Ck2.Save
             }
 
             return l;
+        }
+
+
+        public override string ToString()
+        {
+            return $"B[{NestingLevel},{Children.Count},'{Name}']";
+        }
+
+
+
+        public string ToIndentedString()
+        {
+            return ToUnindentedString();
+        }
+
+        public string ToUnindentedString()
+        {
+            var sb = new StringBuilder();
+
+            sb.AppendLine();
+
+            sb.Append(new string('\t', NestingLevel))
+                .AppendLine("{");
+
+            foreach (var child in Children)
+            {
+                sb.AppendLine(child.ToIndentedString());
+            }
+
+            sb.Append(new string('\t', NestingLevel))
+                .Append("}");
+
+            return sb.ToString();
+
         }
     }
 }

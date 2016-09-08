@@ -102,5 +102,20 @@ namespace Ck2.Save
         {
             return line.SplitAndKeep(new[] { '{', '}' });
         }
+
+
+
+        public void WriteTo(string destFileName)
+        {
+            using (StreamWriter outputFile = new StreamWriter(destFileName))
+            {
+                foreach (var element in RootBlock.Children)
+                {
+                    var toWrite = element.ToIndentedString();
+                    outputFile.WriteLine(toWrite);
+                }
+            }
+
+        }
     }
 }

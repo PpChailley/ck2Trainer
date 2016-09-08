@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Ck2.Save
 {
@@ -21,5 +22,8 @@ namespace Ck2.Save
         IDataElement ProcessLine(string line);
 
         IEnumerable<IDataElement> GetDescendants(string name);
+
+        string ToIndentedString();
+        string ToUnindentedString();
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Ck2.Save
 {
@@ -35,6 +36,16 @@ namespace Ck2.Save
         public IEnumerable<IDataElement> GetDescendants(string name)
         {
             return new IDataElement[] {};
+        }
+
+        public string ToIndentedString()
+        {
+            return new string('\t', NestingLevel) + _s;
+        }
+
+        public string ToUnindentedString()
+        {
+            return _s;
         }
 
 

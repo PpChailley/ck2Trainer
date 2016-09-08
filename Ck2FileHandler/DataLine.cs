@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Ck2.Save
 {
@@ -12,6 +13,7 @@ namespace Ck2.Save
         {
             return new IDataElement[] { };
         }
+
 
 
         public bool IsBlock => AsKeyVal?.Value.IsBlock ?? false;
@@ -59,10 +61,25 @@ namespace Ck2.Save
         public override string ToString()
         {
             if (AsKeyVal == null)
-                return GetType().Name + " : " + AsText;
+                return $"DL(t) <{AsText}>";
             else
-                return AsKeyVal.ToString();
+                return $"DL(kv) <{AsKeyVal}>";
         }
 
+        public string ToIndentedString()
+        {
+            if (AsKeyVal == null)
+                return new string('\t', NestingLevel - 1) + AsText;
+            else
+                return new string('\t', NestingLevel) + AsKeyVal.ToWritableString(0);
+        }
+
+        public string ToUnindentedString()
+        {
+            if (AsKeyVal == null)
+                return AsText;
+            else
+                return AsKeyVal.ToWritableString(0);
+        }
     }
 }

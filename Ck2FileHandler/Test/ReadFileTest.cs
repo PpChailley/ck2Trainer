@@ -135,7 +135,7 @@ namespace Ck2.Save.Test
         [TestCase("nomad_relation", 1)]
         public void FindAllMandatoryUniqueBlocks(string name, int expectedCount)
         {
-            FindAllDescendants(name, expectedCount, true);
+            FindAllDescendants(name, expectedCount, expectedCount, true);
         }
 
         [TestCase("version", 1, false)]
@@ -150,18 +150,60 @@ namespace Ck2.Save.Test
         [TestCase("next_outbreak_id", 1, false)]
         [TestCase("character_action", 1, false)]
         [TestCase("vc_data", 1, false)]
-        public void FindAllMandatoryUniqueKV(string name, int expectedCount, bool expectedAsBlock = true)
+        public void FindAllMandatoryUniqueKv(string name, int expectedCount, bool expectedAsBlock)
         {
-            FindAllDescendants(name, expectedCount, expectedAsBlock);
+            FindAllDescendants(name, expectedCount, expectedCount, expectedAsBlock);
         }
 
-        private void FindAllDescendants(string name, int expectedCount, bool expectedAsBlock)
-        {
-            var objects = _file.RootBlock.GetDescendants(name);
 
-            Assert.That(objects, Has.Count.EqualTo(expectedCount));
+        [TestCase("dyn_title", 4, 5)]
+        [TestCase("delayed_event", 10, 20)]
+        [TestCase("active_focus", 6, 6)]
+        [TestCase("active_ambition", 6, 6)]
+        [TestCase("active_war", 13, 50)]
+        public void FindSomeCommonKv(string name, int minCount, int maxCount)
+        {
+            FindAllDescendants(name, minCount, maxCount, true);
+        }
+
+
+        [TestCase("dynasties", null, 10, 100)]
+        public void FindSomeNestedBlocks(string uniqueParentName, string name, int minCount, int maxCount)
+        {
+            FindAllDescendants(uniqueParentName, name, minCount, maxCount, true);
+        }
+
+        private void FindAllDescendants(string uniqueParentName, string name, int minCount, int maxCount, bool expectedAsBlock)
+        {
+
+            IDataElement startingBlock;
+
+            if (uniqueParentName == null)
+                startingBlock = _file.RootBlock;
+            else
+            {
+                var found = _file.RootBlock.GetDescendants(uniqueParentName);
+                var uniqueLine = found.Single();
+                Assert.That(uniqueLine, Is.TypeOf<DataLine>());
+                startingBlock = (uniqueLine as DataLine).AsKeyVal.Value;
+            }
+
+            Assert.That(startingBlock , Is.TypeOf<DataBlock>());
+
+            var objects = (startingBlock as DataBlock).GetDescendants(name);
+
+            Assert.That(objects, Has.Count.GreaterThanOrEqualTo(minCount));
+            Assert.That(objects, Has.Count.LessThanOrEqualTo(maxCount));
+
             Assert.That(objects.First(), Is.InstanceOf(typeof(DataLine)));
             Assert.That((objects.First() as DataLine).IsBlock, Is.EqualTo(expectedAsBlock));
+
+        }
+
+
+        private void FindAllDescendants(string name, int minCount, int maxCount, bool expectedAsBlock)
+        {
+            FindAllDescendants(null, name, minCount, maxCount, expectedAsBlock);
         }
     }
 

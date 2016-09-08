@@ -107,7 +107,7 @@ namespace Ck2.Save
 
             foreach (var dataElement in Children)
             {
-                if (dataElement.Name.Equals(name))
+                if (name == null || dataElement.Name.Equals(name))
                 {
                     l.Add(dataElement);
                 }

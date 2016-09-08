@@ -4,7 +4,7 @@ using NUnit.Framework;
 namespace Ck2.Save.Test
 {
     [TestFixture]
-    public class ParseCk2File
+    public class ParseCk2FileTest
     {
         private Ck2SaveFile _file;
 

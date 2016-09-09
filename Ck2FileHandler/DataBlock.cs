@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using NUnit.Framework;
 
 namespace Ck2.Save
 {
@@ -27,25 +28,43 @@ namespace Ck2.Save
         }
 
 
-        public DataBlock Block(string name)
+
+        public IEnumerable<KeyValuePair> Properties(string name = null)
         {
-            var block = ((DataBlock) Property(name).Value);
-            return block;
+            return Children.OfType<DataLine>()
+                .Where(c => name == null || c.Name.Equals(name))
+                .Select(line => line.AsKeyVal);
         }
 
-
-        public string Value(string name)
+        public IEnumerable<DataBlock> Blocks(string name = null)
         {
-            var property = Property(name).Value.ToUnindentedString();
-            return property;
+            return Properties(name).Select(p => p.Value).Cast<DataBlock>();
+        }
+
+        public IEnumerable<string> Values(string name = null)
+        {
+            return Properties(name).Select(p => p.Value.ToUnindentedString());
         }
 
         public KeyValuePair Property(string name)
         {
-            return Children.OfType<DataLine>()
-                .Single(c => c.Name.Equals(name))
-                .AsKeyVal;
+            return Properties(name).Single();
         }
+
+        public DataBlock Block(int id) { return Block(id.ToString()); }
+        public DataBlock Block(string name)
+        {
+            return Blocks(name).Single();
+        }
+        
+
+
+        public string Value(string name)
+        {
+            return Values(name).Single();
+        }
+
+
 
 
 
@@ -81,11 +100,6 @@ namespace Ck2.Save
             }
         }
 
-        private void AddChild(string line)
-        {
-            if (line == null) return;
-            Children.Add(new DataBlock(this, line));
-        }
 
         private IDataElement AddText(string line)
         {

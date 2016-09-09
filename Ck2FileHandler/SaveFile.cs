@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using ck2.Mapping.Save.Extensions;
+using Ck2.Save.Model;
 
 namespace Ck2.Save
 
@@ -42,27 +43,13 @@ namespace Ck2.Save
         {
             get
             {
-                var propertyDate = _rootBlock.Children.First(c => c.Name.Equals("date"));
-                var playerId = _rootBlock.Children.First(c => c.Name.Equals("player"))
-                                    .Children.First(c => c.Name.Equals("id"));
-                var playerBlock = _rootBlock.Children.First(c => c.Name.Equals("character"))
-                                    .Children.First(c => c.Name.Equals(playerId.ToString()));
-                var playerBirthName = playerBlock.Children.First(c => c.Name.Equals("birth_name"));
-                var playerDynastyId = playerBlock.Children.First(c => c.Name.Equals("dynasty"));
-                var dynastyName = _rootBlock.Children.First(c => c.Name.Equals("dynasties"))
-                                    .Children.First(c => c.Name.Equals(playerDynastyId.ToString()))
-                                    .Children.First(c => c.Name.Equals("name"));
-                var government = playerBlock.Children.First(c => c.Name.Equals("government"));
-
-
                 var s = new string[10];
                 int i = 0;
 
                 s[i++] = Map.Date.ToWritableString(0);
-                s[i++] = $"Player ID = {Map.PlayerId.Value}";
+                s[i++] = $"Player ID = {Map.PlayerId}";
                 s[i++] = $"Player Name = {Map.Player.BirthName} {Map.Player.Dynasty.Name}";
                 s[i++] = Map.Player.Government.ToWritableString(0);
-
 
                 return s;
             }

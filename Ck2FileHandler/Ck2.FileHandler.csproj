@@ -62,10 +62,12 @@
     <Compile Include="FileChangeSet.cs" />
     <Compile Include="IDataElement.cs" />
     <Compile Include="KeyValuePair.cs" />
-    <Compile Include="Mapping.cs" />
+    <Compile Include="Model\Army.cs" />
+    <Compile Include="Model\Mapping.cs" />
     <Compile Include="Model\Character.cs" />
     <Compile Include="Model\Dynasty.cs" />
     <Compile Include="Model\MappedBlock.cs" />
+    <Compile Include="Model\SubUnit.cs" />
     <Compile Include="SaveFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Test\FileContentsTest.cs" />

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Ck2.Save;
+﻿using Ck2.Save;
 
 namespace Ck2.Trainer.Processors
 {
@@ -12,7 +7,7 @@ namespace Ck2.Trainer.Processors
 
         FileChangeSet ICk2Processor.ApplyToNode(DataBlock node)
         {
-            throw new NotImplementedException();
+            return FileChangeSet.Empty;
         }
     }
 }

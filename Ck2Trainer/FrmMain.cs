@@ -79,14 +79,15 @@ namespace Ck2.Trainer
         /// <param name="acceptProcessingOrders"></param>
         internal void SetUiEnable(bool acceptProcessingOrders)
         {
-            cbClearFileList.Enabled = !acceptProcessingOrders;
-            cbListFiles.Enabled = !acceptProcessingOrders;
-            cbWriteToFile.Enabled = !acceptProcessingOrders;
-            cbBrowse.Enabled = !acceptProcessingOrders;
-            cbApplyProcessor.Enabled = !acceptProcessingOrders;
-            cbClearLog.Enabled = !acceptProcessingOrders;
+            cbClearFileList.Enabled = acceptProcessingOrders;
+            cbListFiles.Enabled = acceptProcessingOrders;
+            cbWriteToFile.Enabled = acceptProcessingOrders;
+            cbBrowse.Enabled = acceptProcessingOrders;
+            cbApplyProcessor.Enabled = acceptProcessingOrders;
+            cbClearLog.Enabled = acceptProcessingOrders;
 
-            cbCancel.Enabled = acceptProcessingOrders;
+            cbCancel.Enabled = ! acceptProcessingOrders ;
+            ProgressBar.Visible = !acceptProcessingOrders;
         }
 
         internal CallerContext PrepareContextBeforeProcessing()

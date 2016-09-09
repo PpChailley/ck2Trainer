@@ -28,13 +28,19 @@ namespace Ck2.Save.Test
         [Ignore("Takes a lot of IO")]
         public void ImitationWrite()
         {
-            _file.WriteTo(TEMP_WRITE_FILENAME);
-            
-            var src = new FileInfo(ReadFileTest.SHORT_FILE).OpenText().ReadToEnd();
-            var copy = new FileInfo(TEMP_WRITE_FILENAME).OpenText().ReadToEnd();
+            try
+            {
+                _file.WriteTo(TEMP_WRITE_FILENAME);
 
-            Assert.That(src.EqualsWithIgnores(copy, new[] {' ', '\t', '\r', '\n'}), Is.EqualTo(0));
+                var src = new FileInfo(ReadFileTest.SHORT_FILE).OpenText().ReadToEnd();
+                var copy = new FileInfo(TEMP_WRITE_FILENAME).OpenText().ReadToEnd();
 
+                Assert.That(src.EqualsWithIgnores(copy, new[] { ' ', '\t', '\r', '\n' }), Is.EqualTo(0));
+            }
+            catch (IOException ioe)
+            {
+                throw new InconclusiveException(ioe.Message, ioe);
+            }
         }
 
         [Test]

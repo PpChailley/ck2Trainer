@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using ck2.Mapping.Save.Extensions;
 
 namespace Ck2.Save
@@ -14,6 +15,8 @@ namespace Ck2.Save
         public bool EndOfStream => _stream.EndOfStream;
 
         public bool FullyParsed = false;
+
+        public Mapping Map;
 
 
         public int NbReadLines { get; private set; }
@@ -32,6 +35,36 @@ namespace Ck2.Save
             private set { _rootBlock = value; }
         }
 
+        /// <summary>
+        /// Returns a short abstract of the file contents, suitable for display
+        /// </summary>
+        public string[] Abstract
+        {
+            get
+            {
+                var propertyDate = _rootBlock.Children.First(c => c.Name.Equals("date"));
+                var playerId = _rootBlock.Children.First(c => c.Name.Equals("player"))
+                                    .Children.First(c => c.Name.Equals("id"));
+                var playerBlock = _rootBlock.Children.First(c => c.Name.Equals("character"))
+                                    .Children.First(c => c.Name.Equals(playerId.ToString()));
+                var playerBirthName = playerBlock.Children.First(c => c.Name.Equals("birth_name"));
+                var playerDynastyId = playerBlock.Children.First(c => c.Name.Equals("dynasty"));
+                var dynastyName = _rootBlock.Children.First(c => c.Name.Equals("dynasties"))
+                                    .Children.First(c => c.Name.Equals(playerDynastyId.ToString()))
+                                    .Children.First(c => c.Name.Equals("name"));
+                var government = playerBlock.Children.First(c => c.Name.Equals("government"));
+
+
+                var s = new string[10];
+
+                s[0] = propertyDate.ToUnindentedString();
+                s[1] = playerId.ToUnindentedString();
+
+
+                return s;
+            }
+        }
+
 
         public SaveFile(string s) : this(new FileInfo(s)) { }
 
@@ -39,7 +72,6 @@ namespace Ck2.Save
         {
             _file = f;
             _stream = f.OpenText();
-            //CheckFileValidity();
         }
 
 
@@ -100,6 +132,8 @@ namespace Ck2.Save
             {
                 throw new InvalidOperationException("Could not read any data. Possibly empty file");
             }
+
+            Map = new Mapping(_rootBlock);
 
             FullyParsed = true;
         }

@@ -5,7 +5,7 @@ using System.Text;
 namespace Ck2.Save
 {
     [System.Diagnostics.DebuggerDisplay("{ToString()}")]
-    public class DataLine : IDataElement
+    public class DataLine : AbstractDataElement, IDataElement
     {
         public string Name => AsKeyVal != null ? AsKeyVal.Key : string.Empty;
 
@@ -40,7 +40,7 @@ namespace Ck2.Save
 
         public IList<IDataElement> Children => AsKeyVal == null ? new IDataElement[0] : AsKeyVal.Value.Children;
 
-        public IDataElement Parent { get; }
+        public override IDataElement Parent { get; }
         public int NestingLevel { get; }
 
 

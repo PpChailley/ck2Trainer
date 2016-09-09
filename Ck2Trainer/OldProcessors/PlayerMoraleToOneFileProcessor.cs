@@ -118,7 +118,7 @@ namespace Ck2Trainer
             if (line.Contains(criteria))
             {
                 PlayerId = line.Substring(line.IndexOf(criteria) + criteria.Length);
-                FrmMain.AddLogEntry(String.Format("Player Id = '{0}'", PlayerId));
+                FrmMain.AddLogEntry(String.Format("Character Id = '{0}'", PlayerId));
             }
 
             return line;

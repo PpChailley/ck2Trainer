@@ -25,5 +25,9 @@ namespace Ck2.Save
 
         string ToIndentedString();
         string ToUnindentedString();
+
+        DataBlock RootParent { get; }
+
+
     }
 }

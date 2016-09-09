@@ -16,7 +16,9 @@ namespace Ck2.Trainer
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new FrmMain());
+
+            var frmMain = new FrmMain();
+            Application.Run(frmMain);
         }
     }
 }

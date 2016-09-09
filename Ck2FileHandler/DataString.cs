@@ -5,7 +5,7 @@ using System.Text;
 namespace Ck2.Save
 {
     [System.Diagnostics.DebuggerDisplay("{ToString()}")]
-    public class DataString : IDataElement
+    public class DataString : AbstractDataElement, IDataElement
     {
         private string _s;
 
@@ -24,7 +24,7 @@ namespace Ck2.Save
         }
 
         public IList<IDataElement> Children => new List<IDataElement>(0);
-        public IDataElement Parent { get; private set; }
+        public override IDataElement Parent { get; }
         public int NestingLevel => Parent.NestingLevel + 1;
 
         public IDataElement ProcessLine(string line)
@@ -53,5 +53,26 @@ namespace Ck2.Save
         {
             return $"<<{_s}>>";
         }
+    }
+
+    public abstract class AbstractDataElement
+    {
+        public abstract IDataElement Parent { get; }
+
+
+
+        public DataBlock RootParent 
+        {
+            get
+            {
+                var p = this;
+                while (p.Parent != null)
+                {
+                    p = (DataBlock)p.Parent;
+                }
+                return (DataBlock) p;
+            }
+        }
+
     }
 }

@@ -18,7 +18,7 @@ namespace Ck2.Trainer
 
         internal FileInfo SelectedFile;
         internal DirectoryInfo SelectedDir;
-        private SaveFile _loadedSaveFile;
+        private SaveFile _f;
 
         public FilesHandler(FrmMain frmMain)
         {
@@ -51,13 +51,13 @@ namespace Ck2.Trainer
             return found;
         }
 
-        public SaveFile LoadedSaveFile
+        public SaveFile F
         {
             get
             {
-                if (_loadedSaveFile == null)
+                if (_f == null)
                     throw new InvalidOperationException("No save file has been loaded");
-                return _loadedSaveFile;
+                return _f;
             }
         }
 
@@ -69,23 +69,49 @@ namespace Ck2.Trainer
             try
             {
                 var context = _frmMain.PrepareContextBeforeProcessing();
-                var task = Task.Factory.StartNew(() =>
+                var task = Task.Factory.StartNew( () =>
                 {
                     Thread.CurrentThread.Name += " - Worker Load File";
 
-                    _loadedSaveFile = new Ck2SaveFile(SelectedFile);
-                    LoadedSaveFile.Parse(context);
+                    _f = new Ck2SaveFile(SelectedFile);
+                    F.Parse(context);
 
                     context.CancelToken.ThrowIfCancellationRequested();
                 },
                 context.CancelToken,
                 TaskCreationOptions.LongRunning,
-                TaskScheduler.Default
-                );
+                TaskScheduler.Default);
+
+                task.ContinueWith( _ =>
+                {
+                    try
+                    {
+                        //task.Wait();
+                    }
+                    finally
+                    {
+                        if (_frmMain.InvokeRequired && _frmMain.IsHandleCreated)
+                        {
+                            _frmMain.Invoke((Action) (() => _frmMain.SetUiEnable(true)));
+                            _frmMain.Invoke((Action) (() => _frmMain.DisplaySaveAbstract(_f.Abstract)));
+                        }
+                        else
+                        {
+                            _frmMain.SetUiEnable(true);
+                            _frmMain.DisplaySaveAbstract(_f.Abstract);
+                        }
+
+                        if (_f.FullyParsed == false)
+                            throw new InvalidOperationException("File load is complete but parsing did not");
+                    }
+                } , 
+                context.CancelToken,
+                TaskContinuationOptions.None,
+                TaskScheduler.FromCurrentSynchronizationContext());
             }
-            finally
+            catch (Exception ex)
             {
-                _frmMain.SetUiEnable(true);
+                throw;
             }
         }
     }

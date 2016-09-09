@@ -17,7 +17,7 @@ namespace Ck2.Trainer
         public ProcessorsHandler ProcessorsHandler { get; }
 
 
-        private Action _cancelAction;
+        internal Action _cancelAction;
 
 
 
@@ -39,6 +39,13 @@ namespace Ck2.Trainer
         private void SetDefaultPathForFileSearch()
         {
             tbSaveDir.Text = FilesHandler.DEFAULT_SEARCH_PATH;
+        }
+
+        public void DisplaySaveAbstract(string[] saveFileAbstract)
+        {
+            lbFileProperties.Items.Clear();
+            lbFileProperties.Items.AddRange(saveFileAbstract);
+            lbFileProperties.Refresh();
         }
     }
 }

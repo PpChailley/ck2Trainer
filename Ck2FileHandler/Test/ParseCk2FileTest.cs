@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using NUnit.Framework;
 
 namespace Ck2.Save.Test
@@ -17,29 +18,12 @@ namespace Ck2.Save.Test
 
 
         [Test]
-        [ExpectedException(typeof(InvalidOperationException))]
-        public void ReadInfoBeforeParsing()
+        public void RootParent()
         {
-            var f = new Ck2SaveFile(ReadFileTest.SHORT_FILE);
-            var playerId = f.PlayerId;
+            var nested = _file.RootBlock.Children.First();
+
+            Assert.That(nested.RootParent, Is.EqualTo(_file.RootBlock));
         }
-
-
-        [Test]
-        public void ReadPlayerId()
-        {
-            var playerId = _file.PlayerId;
-            Assert.That(playerId, Is.Not.EqualTo(0));
-        }
-
-        [Test]
-        public void ReadPlayerObject()
-        {
-            var player = _file.Player;
-        }
-
-
-
 
     }
 }

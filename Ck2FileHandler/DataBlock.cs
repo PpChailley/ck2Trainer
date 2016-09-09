@@ -29,21 +29,22 @@ namespace Ck2.Save
 
         public DataBlock Block(string name)
         {
-            var block = ((DataBlock) GetChildNamed(name));
+            var block = ((DataBlock) Property(name).Value);
             return block;
         }
 
+
         public string Value(string name)
         {
-            var s = ((DataString) GetChildNamed(name));
-            return s.ToUnindentedString();
+            var property = Property(name).Value.ToUnindentedString();
+            return property;
         }
 
-        private IDataElement GetChildNamed(string name)
+        public KeyValuePair Property(string name)
         {
             return Children.OfType<DataLine>()
                 .Single(c => c.Name.Equals(name))
-                .AsKeyVal.Value;
+                .AsKeyVal;
         }
 
 

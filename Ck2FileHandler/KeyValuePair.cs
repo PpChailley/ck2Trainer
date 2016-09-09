@@ -32,7 +32,7 @@ namespace Ck2.Save
                         Value = new DataBlock(dataLine.Parent) { Name = results[0] }
                     };
 
-                // Line looks like "key=value"
+                // Line looks like "key=value" or 'key="value"'
                 case 3:
                     return new KeyValuePair
                     {

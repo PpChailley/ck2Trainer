@@ -56,9 +56,12 @@ namespace Ck2.Save
 
 
                 var s = new string[10];
+                int i = 0;
 
-                s[0] = propertyDate.ToUnindentedString();
-                s[1] = playerId.ToUnindentedString();
+                s[i++] = Map.Date.ToWritableString(0);
+                s[i++] = $"Player ID = {Map.PlayerId.Value}";
+                s[i++] = $"Player Name = {Map.Player.BirthName} {Map.Player.Dynasty.Name}";
+                s[i++] = Map.Player.Government.ToWritableString(0);
 
 
                 return s;
@@ -94,7 +97,7 @@ namespace Ck2.Save
             }
 
             if (fileVersion is DataLine == false
-                || ((DataLine)fileVersion).AsText.Equals("version=\"2.5.2.0\"") == false)
+                || ((DataLine)fileVersion).AsText.Equals("version=2.5.2.0") == false)
 
             {
                 throw new InvalidOperationException("File Version mismatch. Refuse to open");

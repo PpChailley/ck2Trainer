@@ -11,8 +11,8 @@ namespace Ck2.Save
             _root = root;
         }
 
-        public Character Player => new Character(_root.Block("character").Block(_root.Block("player").Value("id")));
-
-
+        public Character Player => new Character(_root.Block("character").Block(PlayerId.Value.ToUnindentedString()));
+        public KeyValuePair PlayerId => _root.Block("player").Property("id");
+        public KeyValuePair Date => _root.Property("date");
     }
 }

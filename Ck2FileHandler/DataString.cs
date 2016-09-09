@@ -20,7 +20,14 @@ namespace Ck2.Save
 
         public DataString(IDataElement parent, string valueString) : this(parent)
         {
-            _s = valueString;
+            if (valueString.StartsWith("\"") && valueString.EndsWith("\""))
+            {
+                _s = valueString.Substring(1, valueString.Length - 2);
+            }
+            else
+            {
+                _s = valueString;
+            }
         }
 
         public IList<IDataElement> Children => new List<IDataElement>(0);

@@ -32,6 +32,8 @@ namespace Ck2.Save.Test
         public void Player()
         {
             var player = _file.Map.Player;
+
+            Assert.That(player.BirthName.Value.ToUnindentedString(), Is.EqualTo("Gaya"));
         }
 
 
@@ -40,6 +42,15 @@ namespace Ck2.Save.Test
         {
             var player = _file.Map.Player;
             var dynasty = player.Dynasty;
+
+            Assert.That(dynasty.Name.Value.ToUnindentedString(), Is.EqualTo("Whiteshirt"));
+        }
+
+        [Test]
+        public void Date()
+        {
+            var date = _file.Map.Date;
+            Assert.That(date.Value.ToUnindentedString(), Is.EqualTo("1042.1.1"));
         }
 
     }

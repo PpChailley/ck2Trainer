@@ -10,5 +10,6 @@ namespace Ck2.Save.Model
         public int Id => int.Parse(D.Block("id").Value("id"));
 
         public IEnumerable<SubUnit> SubUnits => D.Blocks("sub_unit").Select( b => new SubUnit(b, M));
+
     }
 }

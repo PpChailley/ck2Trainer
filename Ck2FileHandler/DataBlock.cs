@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using NUnit.Framework;
 
 namespace Ck2.Save
 {
@@ -9,6 +8,7 @@ namespace Ck2.Save
     public class DataBlock: AbstractDataElement, IDataElement
     {
         public bool IsBlock => true;
+        public DataBlock AsBlock => this;
 
         public IList<IDataElement> Children { get; }
 
@@ -20,7 +20,7 @@ namespace Ck2.Save
 
         private bool _hasSeenOpeningBracket = false;
 
-        public DataBlock(IDataElement parent, string beforeFirstLine = null)
+        public DataBlock(IDataElement parent)
         {
             Children = new List<IDataElement>();
             Parent = parent;
@@ -85,7 +85,7 @@ namespace Ck2.Save
                 {
                     var newBornChild = new DataBlock(this);
                     Children.Add(newBornChild);
-                    newBornChild.Name = $"Unnamed Child of ({this.Name})";
+                    newBornChild.Name = $"Unnamed Child of ({Name})";
                     return newBornChild;
                 }
                 
@@ -120,13 +120,16 @@ namespace Ck2.Save
         {
             List<IDataElement> l = new List<IDataElement>(1000);
 
-            foreach (var dataElement in Children)
+            foreach (IDataElement dataElement in Children)
             {
                 if (name == null || dataElement.Name.Equals(name))
                 {
                     l.Add(dataElement);
                 }
-                l.AddRange(dataElement.GetDescendants(name));
+
+
+                if (dataElement.AsBlock != null)
+                    l.AddRange(dataElement.AsBlock.GetDescendants(name));
             }
 
             return l;

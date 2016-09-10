@@ -11,6 +11,7 @@ namespace Ck2.Save
 
         public string Name => string.Empty;
         public bool IsBlock => false;
+        public DataBlock AsBlock => null;
 
 
         public DataString(IDataElement parent)

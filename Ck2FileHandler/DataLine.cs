@@ -18,6 +18,8 @@ namespace Ck2.Save
 
         public bool IsBlock => AsKeyVal?.Value.IsBlock ?? false;
 
+        public DataBlock AsBlock => (DataBlock) (IsBlock ? AsKeyVal.Value : null);
+
         private string _asText;
         public string AsText
         {
@@ -57,10 +59,7 @@ namespace Ck2.Save
             HasTriedKeyVal = false;
             ToBestRepresentation();
 
-            if (AsKeyVal != null  && AsKeyVal.Value.IsBlock)
-                return AsKeyVal.Value;
-            else
-                return Parent;
+            return AsBlock ?? Parent;
         }
 
         private void ToBestRepresentation()

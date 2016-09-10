@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace Ck2.Save.Model
@@ -18,9 +17,9 @@ namespace Ck2.Save.Model
 
         public KeyValuePair Date => _root.Property("date");
 
-        public IEnumerable<Character> Characters => _root.Block("character").Blocks().Cast<Character>();
+        public IEnumerable<Character> Characters => _root.Block("character").Blocks().Select(b => new Character(b, this));
 
-        public IEnumerable<Army> AllArmies => _root.GetDescendants("army").Select( data => new Army((DataBlock)data, this));
+        public IEnumerable<Army> AllArmies => _root.GetDescendants("army").Select( data => new Army(data.AsBlock, this));
 
     }
 }

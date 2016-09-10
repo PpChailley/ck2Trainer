@@ -12,6 +12,8 @@ namespace Ck2.Save
         string Name { get; }
 
         bool IsBlock { get; }
+        DataBlock AsBlock { get;  }
+
 
 
         /// <summary>
@@ -27,7 +29,6 @@ namespace Ck2.Save
         string ToUnindentedString();
 
         DataBlock RootParent { get; }
-
 
     }
 }

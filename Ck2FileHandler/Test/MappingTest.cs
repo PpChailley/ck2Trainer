@@ -15,7 +15,7 @@ namespace Ck2.Save.Test
         [TestFixtureSetUp]
         public void SetUp()
         {
-            var f = ReadFileTest.TEST_FILE;
+            var f = ReadFileTest.SHORT_FILE;
             int expectedFileSize = Ck2SaveFile.EstimateNbLines(new FileInfo(f));
 
             _file = new Ck2SaveFile(f);

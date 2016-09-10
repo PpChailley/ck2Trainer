@@ -109,7 +109,7 @@ namespace Ck2.Trainer
                 TaskContinuationOptions.None,
                 TaskScheduler.FromCurrentSynchronizationContext());
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }

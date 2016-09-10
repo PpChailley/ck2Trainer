@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 
@@ -41,7 +42,7 @@ namespace Ck2.Save.Test
         [TestCase("nomad_relation", 1)]
         public void FindAllMandatoryUniqueBlocks(string name, int expectedCount)
         {
-            FindAllDescendants(name, expectedCount, expectedCount, true);
+            FindChildren(name, expectedCount, expectedCount, true);
         }
 
         [TestCase("version", 1, false)]
@@ -58,7 +59,7 @@ namespace Ck2.Save.Test
         [TestCase("vc_data", 1, false)]
         public void FindAllMandatoryUniqueKv(string name, int expectedCount, bool expectedAsBlock)
         {
-            FindAllDescendants(name, expectedCount, expectedCount, expectedAsBlock);
+            FindChildren(name, expectedCount, expectedCount, expectedAsBlock);
         }
 
 
@@ -69,55 +70,62 @@ namespace Ck2.Save.Test
         [TestCase("active_war", 13, 50)]
         public void FindSomeCommonKv(string name, int minCount, int maxCount)
         {
-            FindAllDescendants(name, minCount, maxCount, true);
+            FindChildren(name, minCount, maxCount, true);
         }
 
 
-        [TestCase("dynasties", null, 10, 100)]
-        [TestCase("character", null, 10, 10000)]
-        [TestCase("relation", null, 10, 1000)]
-        [TestCase("religion", null, 10, 100)]
-        [TestCase("provinces", null, 10, 100)]
-        [TestCase("title", null, 10, 100)]
-        [TestCase("nomad", null, 10, 100)]
-        [TestCase("combat", null, 10, 100)]
+        [TestCase("dynasties", null, 10, 1000)]
+        [TestCase("character", null, 10000, 20000)]
+        [TestCase("relation", null, 10, 10000)]
+        [TestCase("religion", null, 10, 1000)]
+        [TestCase("provinces", null, 10, 3000)]
+        [TestCase("title", null, 10, 10000)]
+        [TestCase("nomad", null, 10, 1000)]
+        [TestCase("combat", null, 1000, 10000)]
         [TestCase("nomad_relation", null, 3, 100)]
         public void FindSomeNestedBlocks(string uniqueParentName, string name, int minCount, int maxCount)
         {
-            FindAllDescendants(uniqueParentName, name, minCount, maxCount, true);
+            FindChildren(uniqueParentName, name, minCount, maxCount, true, true);
         }
 
-        private void FindAllDescendants(string uniqueParentName, string name, int minCount, int maxCount, bool expectedAsBlock)
+
+
+        private void FindChildren(string uniqueParentName, string name, int minCount, int maxCount, bool expectedAsBlock, bool allowRecurse)
         {
 
-            IDataElement startingBlock;
+            DataBlock startingBlock;
 
             if (uniqueParentName == null)
                 startingBlock = _file.RootBlock;
             else
             {
-                var found = _file.RootBlock.GetDescendants(uniqueParentName);
+                var found = _file.RootBlock.Children.Where(data => data.Name.Equals(uniqueParentName));
+                //var found = _file.RootBlock.GetDescendants(uniqueParentName);
                 var uniqueLine = found.Single();
                 Assert.That(uniqueLine, Is.TypeOf<DataLine>());
-                startingBlock = (uniqueLine as DataLine).AsKeyVal.Value;
+                startingBlock = uniqueLine.AsBlock;
             }
 
             Assert.That(startingBlock , Is.TypeOf<DataBlock>());
 
-            var objects = (startingBlock as DataBlock).GetDescendants(name);
+            IDataElement[] objects = null;
+            if (allowRecurse)
+                objects = startingBlock.GetDescendants(name).ToArray();
+            else
+                objects = startingBlock.Children.Where(data => data.Name.Equals(name)).ToArray();
 
-            Assert.That(objects, Has.Count.GreaterThanOrEqualTo(minCount));
-            Assert.That(objects, Has.Count.LessThanOrEqualTo(maxCount));
+            Assert.That(objects.Length, Is.GreaterThanOrEqualTo(minCount));
+            Assert.That(objects.Length, Is.LessThanOrEqualTo(maxCount));
 
             Assert.That(objects.First(), Is.InstanceOf(typeof(DataLine)));
-            Assert.That((objects.First() as DataLine).IsBlock, Is.EqualTo(expectedAsBlock));
+            Assert.That(objects.First().IsBlock, Is.EqualTo(expectedAsBlock));
 
         }
 
 
-        private void FindAllDescendants(string name, int minCount, int maxCount, bool expectedAsBlock)
+        private void FindChildren(string name, int minCount, int maxCount, bool expectedAsBlock, bool recurse = false)
         {
-            FindAllDescendants(null, name, minCount, maxCount, expectedAsBlock);
+            FindChildren(null, name, minCount, maxCount, expectedAsBlock, recurse);
         }
     }
 }

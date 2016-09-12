@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace Ck2.Save
+namespace Ck2.Save.File
 {
     [System.Diagnostics.DebuggerDisplay("{ToString()}")]
     public class DataLine : AbstractDataElement, IDataElement
@@ -37,7 +36,7 @@ namespace Ck2.Save
             }
         }
 
-        public KeyValuePair AsKeyVal;
+        public Property AsKeyVal;
         public bool HasTriedKeyVal = false;
 
         public IList<IDataElement> Children => AsKeyVal == null ? new IDataElement[0] : AsKeyVal.Value.Children;
@@ -67,7 +66,7 @@ namespace Ck2.Save
             if (HasTriedKeyVal == true)
                 return;
 
-            var keyval = KeyValuePair.FromDataLine(this);
+            var keyval = Property.FromDataLine(this);
             AsKeyVal = keyval;
             HasTriedKeyVal = true;
 

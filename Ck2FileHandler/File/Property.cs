@@ -1,21 +1,18 @@
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using ck2.Mapping.Save.Extensions;
 
-namespace Ck2.Save
+namespace Ck2.Save.File
 {
     [System.Diagnostics.DebuggerDisplay("{ToString()}")]
-    public class KeyValuePair
+    public class Property
     {
 
         public string Key { get; private set; }
         public IDataElement Value { get; private set; }
 
 
-        public static KeyValuePair FromDataLine(DataLine dataLine)
+        public static Property FromDataLine(DataLine dataLine)
         {
             if (dataLine == null || dataLine.AsText.Equals(string.Empty))
                 return null;
@@ -26,7 +23,7 @@ namespace Ck2.Save
             {
                 // Line looks like "key=" or "key={"
                 case 2:
-                    return new KeyValuePair
+                    return new Property
                     {
                         Key = results[0],
                         Value = new DataBlock(dataLine.Parent) { Name = results[0] }
@@ -34,7 +31,7 @@ namespace Ck2.Save
 
                 // Line looks like "key=value" or 'key="value"'
                 case 3:
-                    return new KeyValuePair
+                    return new Property
                     {
                         Key = results[0],
                         Value = new DataString(dataLine.Parent, results[2])

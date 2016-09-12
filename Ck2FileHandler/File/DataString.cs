@@ -1,8 +1,6 @@
-using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace Ck2.Save
+namespace Ck2.Save.File
 {
     [System.Diagnostics.DebuggerDisplay("{ToString()}")]
     public class DataString : AbstractDataElement, IDataElement

@@ -1,8 +1,7 @@
-using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace Ck2.Save
+namespace Ck2.Save.File
+
 {
     public interface IDataElement
     {
@@ -29,6 +28,5 @@ namespace Ck2.Save
         string ToUnindentedString();
 
         DataBlock RootParent { get; }
-
     }
 }

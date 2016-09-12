@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using Ck2.Save;
+using Ck2.Save.File;
 using NUnit.Framework;
 
 namespace Ck2.Save.Test

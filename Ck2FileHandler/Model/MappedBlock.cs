@@ -1,4 +1,6 @@
-﻿namespace Ck2.Save.Model
+﻿using Ck2.Save.File;
+
+namespace Ck2.Save.Model
 {
     public abstract class MappedBlock
     {

@@ -4,6 +4,7 @@ using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 using Ck2.Save;
+using Ck2.Save.File;
 
 namespace Ck2.Trainer
 {

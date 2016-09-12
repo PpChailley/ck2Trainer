@@ -1,8 +1,7 @@
-﻿using System;
-using System.IO;
-using Ck2.Save.Model;
+﻿using System.IO;
 
-namespace Ck2.Save
+namespace Ck2.Save.File
+
 {
     public class Ck2SaveFile : SaveFile
     {

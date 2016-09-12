@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Ck2.Save.File;
 using Ck2.Save.Model;
 using NUnit.Framework;
 
@@ -10,7 +10,8 @@ namespace Ck2.Save.Test
     [TestFixture]
     public class MappingTest
     {
-        private Ck2SaveFile _file;
+        private 
+            Ck2SaveFile _file;
 
         [TestFixtureSetUp]
         public void SetUp()
@@ -36,14 +37,14 @@ namespace Ck2.Save.Test
         public void Property()
         {
             var prop = _file.RootBlock.Property("is_zeus_save");
-            Assert.That(prop.Value.ToIndentedString(), Is.EqualTo("yes"));
+            Assert.That(prop.Value.ToUnindentedString(), Is.EqualTo("yes"));
         }
 
         [Test]
         public void Properties()
         {
             var prop = _file.RootBlock.Properties("dyn_title").ToArray();
-            Assert.That(prop.Length, Is.EqualTo(116));
+            Assert.That(prop.Length, Is.EqualTo(115));
         }
 
         [Test]

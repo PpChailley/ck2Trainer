@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Ck2.Save;
+using Ck2.Save.File;
 
 namespace Ck2.Trainer
 {

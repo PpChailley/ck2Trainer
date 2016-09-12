@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Security.Cryptography.X509Certificates;
 using Ck2.Save;
+using Ck2.Save.File;
 using Ck2.Save.Test;
 using Ck2.Trainer.Processors;
 using NUnit.Framework;

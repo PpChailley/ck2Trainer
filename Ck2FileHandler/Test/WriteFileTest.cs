@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using ck2.Mapping.Save.Extensions;
+using Ck2.Save.File;
 using NUnit.Framework;
 
 namespace Ck2.Save.Test
@@ -9,11 +10,13 @@ namespace Ck2.Save.Test
     [TestFixture]
     public class WriteFileTest
     {
-        private SaveFile _file;
 
         public const string TEMP_WRITE_DIR = ReadFileTest.DATA_DIR +    @"temp\";
         public const string TEMP_WRITE_FILENAME = TEMP_WRITE_DIR + @"imitation.ck2";
         private const int COMPARE_BUFFER_SIZE = sizeof(long);
+
+        private SaveFile _file;
+
 
         [TestFixtureSetUp]
         public void SetUp()

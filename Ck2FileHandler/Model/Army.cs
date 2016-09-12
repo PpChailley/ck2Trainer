@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using Ck2.Save.File;
 
 namespace Ck2.Save.Model
 {

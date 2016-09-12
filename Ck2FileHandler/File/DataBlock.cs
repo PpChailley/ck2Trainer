@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Ck2.Save
+namespace Ck2.Save.File
 {
     [System.Diagnostics.DebuggerDisplay("{ToString()}")]
     public class DataBlock: AbstractDataElement, IDataElement
@@ -29,7 +29,7 @@ namespace Ck2.Save
 
 
 
-        public IEnumerable<KeyValuePair> Properties(string name = null)
+        public IEnumerable<Property> Properties(string name = null)
         {
             return Children.OfType<DataLine>()
                 .Where(c => name == null || c.Name.Equals(name))
@@ -46,7 +46,7 @@ namespace Ck2.Save
             return Properties(name).Select(p => p.Value.ToUnindentedString());
         }
 
-        public KeyValuePair Property(string name)
+        public Property Property(string name)
         {
             return Properties(name).Single();
         }

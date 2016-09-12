@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using ck2.Mapping.Save.Extensions;
 using Ck2.Save.Model;
 
-namespace Ck2.Save
-
+namespace Ck2.Save.File
 {
     [System.Diagnostics.DebuggerDisplay("{ToString()}")]
     public class SaveFile

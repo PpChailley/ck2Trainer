@@ -7,7 +7,15 @@ namespace Ck2.Save.Model
     {
         public SubUnit(DataBlock block, Mapping mapping) : base(block, mapping) { }
 
-        public Character Owner => M.Characters.Single(c => c.Id == int.Parse(D.Value("owner")));
+        private Character _owner;
+        public Character Owner => _owner?? (_owner = M.Characters.Single(c => c.Id == int.Parse(D.Value("owner"))));
 
+        private int? _id;
+        public int Id => _id?? (int) (_id = int.Parse(D.Block("id").Value("id")) as int?);
+
+        public override string ToString()
+        {
+            return $"SubUnit [id={Id}]";
+        }
     }
 }

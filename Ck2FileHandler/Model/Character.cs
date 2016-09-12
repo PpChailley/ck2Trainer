@@ -9,7 +9,9 @@ namespace Ck2.Save.Model
         public Dynasty Dynasty => new Dynasty(Root.Block("dynasties").Block(D.Value("dynasty")), M);
         public Property BirthName => D.Property("birth_name");
         public Property Government => D.Property("government");
-        public int Id => int.Parse(D.Name);
+
+        private int? _id;
+        public int Id => _id?? (int) (_id = int.Parse(D.Name) as int?);
 
 
         public bool Equals(Character c)

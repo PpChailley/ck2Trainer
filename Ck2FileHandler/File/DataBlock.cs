@@ -29,11 +29,22 @@ namespace Ck2.Save.File
 
 
 
+        private readonly Dictionary<string, IEnumerable<Property>> _propertiesCache = new Dictionary<string, IEnumerable<Property>>();
+
         public IEnumerable<Property> Properties(string name = null)
         {
-            return Children.OfType<DataLine>()
+            IEnumerable<Property> cached;
+            if (_propertiesCache.TryGetValue(name??"null", out cached))
+                return cached;
+
+            var found = Children.OfType<DataLine>()
                 .Where(c => name == null || c.Name.Equals(name))
-                .Select(line => line.AsKeyVal);
+                .Select(line => line.AsKeyVal)
+                .ToArray();
+
+            _propertiesCache.Add(name??"null", found);
+            return found;
+
         }
 
         public IEnumerable<DataBlock> Blocks(string name = null)

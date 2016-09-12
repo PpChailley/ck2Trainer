@@ -58,7 +58,7 @@ namespace Ck2.Save.Test
         public void Values()
         {
             IEnumerable<string> val = _file.RootBlock.Values("is_zeus_save").ToArray();
-            Assert.That(val, Has.Count.EqualTo(1));
+            Assert.That(val.Count, Is.EqualTo(1));
         }
 
         [Test]
@@ -118,7 +118,7 @@ namespace Ck2.Save.Test
         {
             var subUnits = _file.Map.AllArmies.Single(a => a.Id == 96222).SubUnits;
 
-            Assert.That(subUnits, Has.Count.EqualTo(12));
+            Assert.That(subUnits.Count(), Is.EqualTo(12));
         }
 
 
@@ -132,12 +132,10 @@ namespace Ck2.Save.Test
                 subUnits.AddRange(army.SubUnits);
             }
 
-            IEnumerable<SubUnit> ownedByPlayer = subUnits.Where(a => a.Owner.Equals(_file.Map.Player));
+            IEnumerable<SubUnit> ownedByPlayer = subUnits.Where(a => a.Owner.Id == _file.Map.PlayerId).ToArray();
 
-            Assert.That(ownedByPlayer, Has.Count.EqualTo(subUnits.Count(a => a.Owner.Id == _file.Map.PlayerId)));
-
-            Assert.That(ownedByPlayer, Has.Count.EqualTo(1));
-            Assert.That(subUnits.Count(a => a.Owner.Equals(_file.Map.Player)), Is.EqualTo(1));
+            Assert.That(ownedByPlayer.Count(), Is.EqualTo(121));
+            Assert.That(subUnits.Count(a => a.Owner.Equals(_file.Map.Player)), Is.EqualTo(121));
         }
 
         [Test]

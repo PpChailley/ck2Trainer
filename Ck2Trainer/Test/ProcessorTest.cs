@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Ck2.Save;
 using Ck2.Save.File;
 using Ck2.Save.Test;
@@ -41,6 +42,23 @@ namespace Ck2.Trainer.Test
             var changeset = activator.ApplyToNode(_file.RootBlock);
 
             Assert.That(changeset.Count, Is.EqualTo(0));
+        }
+
+
+        [Test]
+        public void AllMoraleToZeroProcessor()
+        {
+            var allSubUnits = _file.RootBlock.Blocks("sub_unit").ToArray();
+
+
+            var activator = (ICk2Processor)Activator.CreateInstance(typeof(AllMoraleToZeroProcessor));
+            var changeset = activator.ApplyToNode(_file.RootBlock);
+
+            Assert.That(changeset.Count, Is.EqualTo(allSubUnits.Count()));
+            foreach (var unit in allSubUnits)
+            {
+                Assert.That(unit.AsBlock.Value("morale"), Is.EqualTo(0));
+            }
         }
 
     }

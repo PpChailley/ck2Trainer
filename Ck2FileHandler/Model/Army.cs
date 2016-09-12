@@ -7,7 +7,17 @@ namespace Ck2.Save.Model
     {
         public Army(DataBlock block, Mapping mapping) : base(block, mapping) { }
 
-        public int Id => int.Parse(D.Block("id").Value("id"));
+        public int? Id
+        {
+            get
+            {
+                var foundId = D.Block("id");
+                if (foundId == null)
+                    return null;
+                else
+                    return int.Parse(foundId.Value("id"));
+            }
+        }
 
         public IEnumerable<SubUnit> SubUnits => D.Blocks("sub_unit").Select( b => new SubUnit(b, M));
 

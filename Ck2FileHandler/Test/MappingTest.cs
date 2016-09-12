@@ -15,7 +15,7 @@ namespace Ck2.Save.Test
         [TestFixtureSetUp]
         public void SetUp()
         {
-            var f = ReadFileTest.SHORT_FILE;
+            var f = ReadFileTest.TEST_FILE;
             int expectedFileSize = Ck2SaveFile.EstimateNbLines(new FileInfo(f));
 
             _file = new Ck2SaveFile(f);
@@ -36,14 +36,14 @@ namespace Ck2.Save.Test
         public void Property()
         {
             var prop = _file.RootBlock.Property("is_zeus_save");
-            Assert.That(prop.Value, Is.EqualTo("yes"));
+            Assert.That(prop.Value.ToIndentedString(), Is.EqualTo("yes"));
         }
 
         [Test]
         public void Properties()
         {
             var prop = _file.RootBlock.Properties("dyn_title").ToArray();
-            Assert.That(prop, Has.Count.EqualTo(116));
+            Assert.That(prop.Length, Is.EqualTo(116));
         }
 
         [Test]
@@ -71,7 +71,7 @@ namespace Ck2.Save.Test
         public void Blocks()
         {
             IEnumerable<DataBlock> blocks = _file.RootBlock.Blocks("active_war").ToArray();
-            Assert.That(blocks, Has.Count.EqualTo(50));
+            Assert.That(blocks.Count(), Is.EqualTo(50));
         }
 
 
@@ -108,7 +108,7 @@ namespace Ck2.Save.Test
         {
             var armies = _file.Map.AllArmies.ToArray();
 
-            Assert.That(armies.Length, Is.EqualTo(100));
+            Assert.That(armies.Length, Is.EqualTo(378));
             Assert.That(armies.Count( a => a.Id == 100747), Is.EqualTo(1));
         }
 
@@ -144,7 +144,7 @@ namespace Ck2.Save.Test
         {
             var characters = _file.Map.Characters.ToArray();
 
-            Assert.That(characters.Count(), Is.EqualTo(100));
+            Assert.That(characters.Count(), Is.EqualTo(87168));
             Assert.That(characters.Count(c => c.Id == 605459), Is.EqualTo(1));
             Assert.That(characters.Count(c => c.Equals(_file.Map.Player)), Is.EqualTo(1));
         }

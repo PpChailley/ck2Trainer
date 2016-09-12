@@ -38,7 +38,7 @@ namespace Ck2.Save
 
         public IEnumerable<DataBlock> Blocks(string name = null)
         {
-            return Properties(name).Select(p => p.Value).Cast<DataBlock>();
+            return Properties(name).Select(p => p.Value.AsBlock);
         }
 
         public IEnumerable<string> Values(string name = null)

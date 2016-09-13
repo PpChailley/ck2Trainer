@@ -19,6 +19,7 @@ namespace Ck2.Save.Test
         public const string TEST_FILE =         DATAFILES_DIR + @"full.ck2";
         public const string SHORT_FILE =        DATAFILES_DIR + @"shortened.ck2";
         public const string VERYSHORT_FILE =    DATAFILES_DIR + @"veryshort.ck2";
+        public const string ARMIES_FILE =       DATAFILES_DIR + @"armies.ck2";
         public const string EMPTY_FILE =        DATAFILES_DIR + @"empty.ck2";
         public const string INVALID_FILE =      DATAFILES_DIR + @"invalid.ck2";
 
@@ -90,7 +91,7 @@ namespace Ck2.Save.Test
         public void ReadLinesCount()
         {
             _file.Parse(CallerContext.Empty);
-            Assert.That(_file.NbReadLines, Is.EqualTo(58709));
+            Assert.That(_file.NbReadLines, Is.EqualTo(59179));
         }
 
 

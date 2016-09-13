@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Ck2.Save.File;
@@ -109,8 +110,8 @@ namespace Ck2.Save.Test
         {
             var armies = _file.Map.AllArmies.ToArray();
 
+            Assert.That(armies.Count(a => a.Id == 96222), Is.EqualTo(1));  // demesme sub unit (first in file)
             Assert.That(armies.Length, Is.EqualTo(378));
-            Assert.That(armies.Count( a => a.Id == 100747), Is.EqualTo(1));
         }
 
         [Test]
@@ -126,16 +127,18 @@ namespace Ck2.Save.Test
         public void SubUnitOwner()
         {
             var armies = _file.Map.AllArmies;
-            var subUnits = new List<SubUnit>();
+            var subUnits = new List<Army>();
             foreach (var army in armies)
             {
                 subUnits.AddRange(army.SubUnits);
             }
 
-            IEnumerable<SubUnit> ownedByPlayer = subUnits.Where(a => a.Owner.Id == _file.Map.PlayerId).ToArray();
+            var ownedByPlayer = subUnits.Where(a => a.Owner.Id == _file.Map.PlayerId).ToArray();
 
+            //TODO: performance issues
             Assert.That(ownedByPlayer.Count(), Is.EqualTo(121));
-            Assert.That(subUnits.Count(a => a.Owner.Equals(_file.Map.Player)), Is.EqualTo(121));
+            Assert.That(subUnits.Count(a => a.Owner.Id == _file.Map.PlayerId), Is.EqualTo(121));
+            
         }
 
         [Test]

@@ -100,11 +100,12 @@ namespace Ck2.Save.Test
                 startingBlock = _file.RootBlock;
             else
             {
-                var found = _file.RootBlock.Children.Where(data => data.Name.Equals(uniqueParentName));
+                startingBlock = _file.RootBlock.Block(uniqueParentName);
+                //var found = _file.RootBlock.Children.Where(data => data.Name.Equals(uniqueParentName));
                 //var found = _file.RootBlock.GetDescendants(uniqueParentName);
-                var uniqueLine = found.Single();
-                Assert.That(uniqueLine, Is.TypeOf<DataLine>());
-                startingBlock = uniqueLine.AsBlock;
+                //var uniqueLine = found.Single();
+                //Assert.That(uniqueLine, Is.TypeOf<DataLine>());
+                //startingBlock = uniqueLine.AsBlock;
             }
 
             Assert.That(startingBlock , Is.TypeOf<DataBlock>());

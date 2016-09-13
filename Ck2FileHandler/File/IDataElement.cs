@@ -3,7 +3,7 @@ using System.Collections.Generic;
 namespace Ck2.Save.File
 
 {
-    public interface IDataElement
+    public interface IDataElement: IDataContainer
     {
         IList<IDataElement> Children { get; }
         IDataElement Parent { get; }

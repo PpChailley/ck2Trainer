@@ -52,7 +52,7 @@ namespace Ck2.Trainer
         internal void ApplySelectedProcessor()
         {
             ((ICk2Processor)Activator.CreateInstance((Type) SelectedProcessor))
-                .ApplyToNode(_frmMain.FilesHandler.F.RootBlock);
+                .ApplyToNode(_frmMain.FilesHandler.F.Map);
         }
 
         internal bool ConfirmApplySelectedProcessor()

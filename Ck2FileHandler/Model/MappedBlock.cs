@@ -2,7 +2,7 @@
 
 namespace Ck2.Save.Model
 {
-    public abstract class MappedBlock
+    public abstract class MappedBlock: IDataContainer
     {
         protected DataBlock D;
         protected DataBlock Root;

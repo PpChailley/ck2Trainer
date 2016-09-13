@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime;
 using ck2.Mapping.Save.Extensions;
 using Ck2.Save.Model;
 
@@ -93,37 +94,48 @@ namespace Ck2.Save.File
         {
             FullyParsed = false;
 
-            RootBlock = new DataBlock(null);
-            IDataElement target = RootBlock;
+            var garbageCollectOldLatencyMode = GCSettings.LatencyMode;
 
-            if (ReportProgress(context)) return;
-
-            while (_stream.EndOfStream == false)
+            try
             {
+                GCSettings.LatencyMode = GCLatencyMode.LowLatency;
+
+                RootBlock = new DataBlock(null);
+                IDataElement target = RootBlock;
+
                 if (ReportProgress(context)) return;
 
-                var line = ReadLine();
-                var splitLine = SplitLine(line);
-
-                foreach (var subLine in splitLine)
+                while (_stream.EndOfStream == false)
                 {
-                     target = target.ProcessLine(subLine);
+                    if (ReportProgress(context)) return;
+
+                    var line = ReadLine();
+                    var splitLine = SplitLine(line);
+
+                    foreach (var subLine in splitLine)
+                    {
+                        target = target.ProcessLine(subLine);
+                    }
+
+                    if (NbReadLines == 5 || _stream.EndOfStream)
+                    {
+                        CheckFileValidity();
+                    }
                 }
 
-                if (NbReadLines == 5 || _stream.EndOfStream)
+                if (RootBlock.Children.Count == 0)
                 {
-                    CheckFileValidity();
+                    throw new InvalidOperationException("Could not read any data. Possibly empty file");
                 }
+
+                Map = new Mapping(_rootBlock);
+
+                FullyParsed = true;
             }
-
-            if (RootBlock.Children.Count == 0)
+            finally
             {
-                throw new InvalidOperationException("Could not read any data. Possibly empty file");
+                GCSettings.LatencyMode = garbageCollectOldLatencyMode;
             }
-
-            Map = new Mapping(_rootBlock);
-
-            FullyParsed = true;
         }
 
         private bool ReportProgress(CallerContext context)

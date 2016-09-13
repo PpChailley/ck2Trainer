@@ -129,11 +129,17 @@ namespace Ck2.Save.File
 
         public IEnumerable<IDataElement> GetDescendants(string name)
         {
+            return GetDescendants(name == null ? null : new []{name} );
+        }
+
+
+        public IEnumerable<IDataElement> GetDescendants(string[] name)
+        {
             List<IDataElement> l = new List<IDataElement>(1000);
 
             foreach (IDataElement dataElement in Children)
             {
-                if (name == null || dataElement.Name.Equals(name))
+                if (name == null || name.Contains(dataElement.Name))
                 {
                     l.Add(dataElement);
                 }
